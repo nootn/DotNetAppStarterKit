@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>DotNetAppStarterKit.Web.Mvc</id>
+    <version>1.0.1.0</version>
+    <releaseNotes>
+      * Initial version - add this package to an ASP.NET MVC app to get filters and helper methods for logging, caching and IP Address checking
+    </releaseNotes>
+    <authors>http://www.nootn.com.au</authors>
+    <owners>http://www.nootn.com.au</owners>
+    <projectUrl>http://nootn.github.com/DotNetAppStarterKit</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Gets you up and going with an ASP.NET MVC app quicker by provifing handy components such as action filters and helper methods to perform actions like caching and logging.</description>
+    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet web webforms mvc caching cache logging log security nootn</tags>
+    <dependencies>
+      <dependency id="DotNetAppStarterKit.Web" version="1.0.1.0" />
+      <dependency id="Microsoft.AspNet.Mvc" version="4.0.20710.0" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin\release\DotNetAppStarterKit.Web.Mvc.dll" target="lib\net45" />
+  </files>
+</package>

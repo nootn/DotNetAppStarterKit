@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DotNetAppStarterKit.Web.MVC")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DotNetAppStarterKit.Web.Mvc")]
+[assembly: AssemblyDescription("Gets you up and going with an ASP.NET MVC app quicker by provifing handy components such as action filters and helper methods to perform actions like caching and logging")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("DotNetAppStarterKit.Web.MVC")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2013")]
+[assembly: AssemblyCompany("http://www.nootn.com.au")]
+[assembly: AssemblyProduct("DotNetAppStarterKit.Web.Mvc")]
+[assembly: AssemblyCopyright("Copyright © http://www.nootn.com.au 2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.1.0")]
+[assembly: AssemblyFileVersion("1.0.1.0")]

@@ -11,9 +11,9 @@
 using System.Web;
 using System.Web.Mvc;
 using DotNetAppStarterKit.Core.Security;
-using DotNetAppStarterKit.Web.MVC.Helpers;
+using DotNetAppStarterKit.Web.Mvc.Helpers;
 
-namespace DotNetAppStarterKit.Web.MVC.Filters
+namespace DotNetAppStarterKit.Web.Mvc.Filters
 {
     public class SetCurrentUserAttribute : ActionFilterAttribute
     {

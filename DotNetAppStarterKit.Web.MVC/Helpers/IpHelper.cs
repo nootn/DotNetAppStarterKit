@@ -12,7 +12,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 
-namespace DotNetAppStarterKit.Web.MVC.Helpers
+namespace DotNetAppStarterKit.Web.Mvc.Helpers
 {
     public static class IpHelper
     {

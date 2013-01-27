@@ -16,9 +16,9 @@ using System.Net;
 using System.Web.Mvc;
 using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.Logging;
-using DotNetAppStarterKit.Web.MVC.Helpers;
+using DotNetAppStarterKit.Web.Mvc.Helpers;
 
-namespace DotNetAppStarterKit.Web.MVC.Filters
+namespace DotNetAppStarterKit.Web.Mvc.Filters
 {
     public class IpRestrictionGlobalFilter : IActionFilter
     {
