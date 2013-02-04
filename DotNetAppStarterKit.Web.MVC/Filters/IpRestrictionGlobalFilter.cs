@@ -48,7 +48,7 @@ namespace DotNetAppStarterKit.Web.Mvc.Filters
             var restrictToIpAddresses = RestrictToIpAddresses();
             var restrictToDnsAlias = RestrictToDnsAlias();
 
-            if (restrictToIpAddresses.Any() || restrictToDnsAlias.Any())
+            if ((restrictToIpAddresses != null && restrictToIpAddresses.Any()) || (restrictToDnsAlias != null && restrictToDnsAlias.Any()))
             {
                 var clientIp = IpHelper.GetClientIpAddress(filterContext.HttpContext.Request);
 
