@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Web.Mvc</id>
-    <version>1.0.1.0</version>
+    <version>1.0.2.0</version>
     <releaseNotes>
-      * Initial version - add this package to an ASP.NET MVC app to get filters and helper methods for logging, caching and IP Address checking
+      * Fixes potential null reference exception in IpRestrictionGlobalFilter
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
