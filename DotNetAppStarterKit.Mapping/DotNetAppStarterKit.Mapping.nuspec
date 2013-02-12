@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0"?>
 <package>
   <metadata>
-    <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.1.0</version>
+    <id>DotNetAppStarterKit.Mapping</id>
+    <version>1.0.0.0</version>
     <releaseNotes>
       * Initial version - add this package to any project where you perform mapping using AutoMapper to be able to create testable, maintainable maps
     </releaseNotes>
@@ -15,8 +15,8 @@
     <copyright>Copyright http://www.nootn.com.au 2013</copyright>
     <tags>DotNetAppStarterKit.Mapping DotNetAppStarterKit .net dotnet automapper map mapping mapbase mapperbase testing test nootn</tags>
     <dependencies>
-      <!-- Version 2.2.0 has some critical bugs especially around mapping Entity Framework entities, so use the latest pre-release version -->
-      <dependency id="AutoMapper" version="2.2.1-ci9004" />
+      <!-- Version 2.2.0 has some critical bugs especially around mapping Entity Framework entities, so use the latest pre-release version if possible -->
+      <dependency id="AutoMapper" version="2.2.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />

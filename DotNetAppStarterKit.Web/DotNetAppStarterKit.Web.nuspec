@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Web</id>
-    <version>1.0.1.0</version>
+    <version>1.0.2.0</version>
     <releaseNotes>
-      * Initial version - add this package to an ASP.NET (WebForms or MVC) app to get implementations of some common infrastructure such as caching and logging
+      * Fixes potential issue with WebCacheProvider where it was using HttpContext.Current.  Changed to pass in HttpContextBase so IOC containers can provide the implementation.
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -15,7 +15,7 @@
     <copyright>Copyright http://www.nootn.com.au 2013</copyright>
     <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet web webforms mvc caching cache logging log security nootn</tags>
     <dependencies>
-      <dependency id="DotNetAppStarterKit.Core" version="1.0.1.0" />
+      <dependency id="DotNetAppStarterKit.Core" version="1.0.3.0" />
       <dependency id="elmah" version="1.2.2" />
       <dependency id="log4net" version="2.0.0" />
     </dependencies>

@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.1.0</version>
+    <version>1.0.3.0</version>
     <releaseNotes>
-      * Initial version - add this package to testing projects so you get the interfaces to mock and TimeFactory
+      * Adds IQuery and ICommand for common data retrieval and update patterns.  See DotNetAppStarterKit.SampleMvc app for how to use them.
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
