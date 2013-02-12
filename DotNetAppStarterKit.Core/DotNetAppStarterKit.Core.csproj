@@ -39,9 +39,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\ICacheProvider%27.cs" />
+    <Compile Include="Command\CommandBase%27%27.cs" />
+    <Compile Include="Command\CommandBase%27.cs" />
+    <Compile Include="Command\ICommand%27.cs" />
+    <Compile Include="Command\ICommand%27%27.cs" />
     <Compile Include="DateAndTime\TimeFactory.cs" />
     <Compile Include="Logging\ILog%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\QueryBase%27.cs" />
+    <Compile Include="Query\IQuery%27.cs" />
+    <Compile Include="Query\IQuery%27%27.cs" />
+    <Compile Include="Query\QueryBase%27%27.cs" />
     <Compile Include="Security\IUser.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -23,17 +23,24 @@ namespace DotNetAppStarterKit.Web.Caching
     /// <typeparam name="T"></typeparam>
     public class WebCacheProvider<T> : ICacheProvider<T> where T : class
     {
+        private readonly HttpContextBase _context;
+
         private static readonly Dictionary<string, KeyValuePair<T, DateTime>> InMemoryItems =
             new Dictionary<string, KeyValuePair<T, DateTime>>();
 
         private static readonly T ThisLock = default(T);
 
+        public WebCacheProvider(HttpContextBase context)
+        {
+            _context = context;
+        }
+
         public void RemoveCachedItem(string key)
         {
             var itemKey = GetCacheKey(key);
-            if (HttpContext.Current != null && HttpContext.Current.Cache != null)
+            if (_context != null && _context.Cache != null)
             {
-                HttpContext.Current.Cache.Remove(itemKey);
+                _context.Cache.Remove(itemKey);
             }
             else
             {
@@ -50,9 +57,9 @@ namespace DotNetAppStarterKit.Web.Caching
         public T GetCachedItem(string key)
         {
             var itemKey = GetCacheKey(key);
-            if (HttpContext.Current != null && HttpContext.Current.Cache != null)
+            if (_context != null && _context.Cache != null)
             {
-                var item = HttpContext.Current.Cache[itemKey];
+                var item = _context.Cache[itemKey];
                 return item == null ? default(T) : (T) item;
             }
             else
@@ -77,9 +84,9 @@ namespace DotNetAppStarterKit.Web.Caching
 
         public void AddCachedItem(T item, string key, int? timeoutInMinutes)
         {
-            if (HttpContext.Current != null && HttpContext.Current.Cache != null)
+            if (_context != null && _context.Cache != null)
             {
-                HttpContext.Current.Cache.Add(GetCacheKey(key), item, null,
+                _context.Cache.Add(GetCacheKey(key), item, null,
                                               timeoutInMinutes == null
                                                   ? Cache.NoAbsoluteExpiration
                                                   : DateTime.Now.AddMinutes(timeoutInMinutes.Value), TimeSpan.Zero,

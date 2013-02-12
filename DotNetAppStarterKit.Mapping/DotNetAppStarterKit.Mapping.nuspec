@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>DotNetAppStarterKit.Core</id>
+    <version>1.0.1.0</version>
+    <releaseNotes>
+      * Initial version - add this package to any project where you perform mapping using AutoMapper to be able to create testable, maintainable maps
+    </releaseNotes>
+    <authors>http://www.nootn.com.au</authors>
+    <owners>http://www.nootn.com.au</owners>
+    <projectUrl>http://nootn.github.com/DotNetAppStarterKit</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Gets you up and going with a DotNet app quicker by providing interfaces for commonly used mapping techniques.</description>
+    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <tags>DotNetAppStarterKit.Mapping DotNetAppStarterKit .net dotnet automapper map mapping mapbase mapperbase testing test nootn</tags>
+    <dependencies>
+      <!-- Version 2.2.0 has some critical bugs especially around mapping Entity Framework entities, so use the latest pre-release version -->
+      <dependency id="AutoMapper" version="2.2.1-ci9004" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin\release\DotNetAppStarterKit.Mapping.dll" target="lib\net45" />
+  </files>
+</package>

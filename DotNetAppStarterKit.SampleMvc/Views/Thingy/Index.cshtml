@@ -1,0 +1,32 @@
+﻿@using MvcMega.Forms.MVC.Html
+@model DotNetAppStarterKit.SampleMvc.Models.ThingyModel
+
+@{
+    ViewBag.Title = "Thingy";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@using (Html.BeginForm("Index", "Thingy", new { ViewBag.ReturnUrl }, FormMethod.Post))
+{
+    <fieldset>
+        @Html.ValidationSummary()
+        @Html.HiddenFor(_ => _.Id)
+        @if (Model.Id == Guid.Empty)
+        {
+            <legend>Enter a new thingy:</legend>
+        }
+        else
+        {
+            <legend>Edit @Model.Name</legend>
+        }
+        @Html.ControlBundleTextBoxFor(_ => _.Name)
+        @if (Model.UpdatedAt.DateTime != default(DateTime))
+        {
+            @Html.ControlBundleFor(_ => _.UpdatedAt, new MvcHtmlString(string.Concat(Model.UpdatedAt.LocalDateTime.ToLongDateString(), " ", Model.UpdatedAt.LocalDateTime.ToLongTimeString())))
+        }
+        <div class="form-actions">
+            <button type="submit">Save</button>
+        </div>
+    </fieldset>
+}
