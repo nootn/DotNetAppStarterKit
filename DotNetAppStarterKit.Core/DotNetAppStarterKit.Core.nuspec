@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.3.0</version>
+    <version>1.0.4.0</version>
     <releaseNotes>
-      * Adds IQuery and ICommand for common data retrieval and update patterns.  See DotNetAppStarterKit.SampleMvc app for how to use them.
+      * Adds Event Publisher and Subscriber functionality.  See DotNetAppStarterKit.SampleMvc app for how to use them: https://github.com/nootn/DotNetAppStarterKit/tree/master/DotNetAppStarterKit.SampleMvc.
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -13,7 +13,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Gets you up and going with a DotNet app quicker by providing interfaces for commonly used components such as logging, caching and security.</description>
     <copyright>Copyright http://www.nootn.com.au 2013</copyright>
-    <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet infrastructure base caching cache logging log security nootn</tags>
+    <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet infrastructure base caching cache logging log security event events publish subscribe nootn</tags>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
       <frameworkAssembly assemblyName="System" targetFramework="net40" />
