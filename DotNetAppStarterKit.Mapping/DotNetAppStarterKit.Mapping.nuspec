@@ -2,9 +2,11 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Mapping</id>
-    <version>1.0.0.0</version>
+    <version>1.0.1.0</version>
     <releaseNotes>
-      * Initial version - add this package to any project where you perform mapping using AutoMapper to be able to create testable, maintainable maps
+      * Adds verifcation method MappingSetup.AssertConfigurationIsValidInAllMappers which can be called by a unit test or on app startup.  Throws an exception if it finds an invalid mapping configuration.
+      
+      Add this package to any project where you perform mapping using AutoMapper to be able to create testable, maintainable maps
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -16,7 +18,7 @@
     <tags>DotNetAppStarterKit.Mapping DotNetAppStarterKit .net dotnet automapper map mapping mapbase mapperbase testing test nootn</tags>
     <dependencies>
       <!-- Version 2.2.0 has some critical bugs especially around mapping Entity Framework entities, so use the latest pre-release version if possible -->
-      <dependency id="AutoMapper" version="2.2.0" />
+      <dependency id="AutoMapper" version="2.1.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />

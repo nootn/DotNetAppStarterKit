@@ -16,7 +16,7 @@ namespace DotNetAppStarterKit.Mapping
 {
     public static class MappingSetup
     {
-        public static AggregateException AssertConfigurationIsValidInAllMappers()
+        public static void AssertConfigurationIsValidInAllMappers()
         {
             var exceptions = new List<Exception>();
             foreach (var currAssembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -47,7 +47,6 @@ namespace DotNetAppStarterKit.Mapping
                 throw new AggregateException(
                     "One or more classes that inherit MapperBase<,> have failed configuration assertion.", exceptions);
             }
-            return null;
         }
     }
 }
