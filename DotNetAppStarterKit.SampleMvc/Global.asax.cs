@@ -10,7 +10,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +22,7 @@ using Autofac;
 using Autofac.Builder;
 using Autofac.Integration.Mvc;
 using DotNetAppStarterKit.Core.Command;
+using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
@@ -36,6 +36,8 @@ namespace DotNetAppStarterKit.SampleMvc
 
     public class MvcApplication : HttpApplication
     {
+        public static AutofacDependencyResolver GlobalResolver { get; private set; }
+
         protected void Application_Start()
         {
             //General MVC setup
@@ -68,16 +70,20 @@ namespace DotNetAppStarterKit.SampleMvc
 
             //DotNetAppStarterKit components
             builder.RegisterType<User>().AsImplementedInterfaces().InstancePerHttpRequest();
-            builder.RegisterGeneric(typeof(WebCacheProvider<>)).AsImplementedInterfaces().InstancePerHttpRequest();
-            RegisterGenericTypes(builder, webAssembly, typeof(ICommand<,>), true)
-                .ForEach(_ => _.InstancePerLifetimeScope());
-            RegisterGenericTypes(builder, webAssembly, typeof(ICommand<>), true)
-                .ForEach(_ => _.InstancePerLifetimeScope());
-            RegisterGenericTypes(builder, webAssembly, typeof(IQuery<,>), true)
-                .ForEach(_ => _.InstancePerLifetimeScope());
-            RegisterGenericTypes(builder, webAssembly, typeof(IQuery<>), true)
-                .ForEach(_ => _.InstancePerLifetimeScope());
-            RegisterGenericTypes(builder, webAssembly, typeof(MapperBase<,>), false)
+            builder.RegisterGeneric(typeof (WebCacheProvider<>)).AsImplementedInterfaces().InstancePerHttpRequest();
+            RegisterGenericTypes(builder, webAssembly, typeof (ICommand<,>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof (ICommand<>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof (IQuery<,>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof (IQuery<>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof (MapperBase<,>), false)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            builder.RegisterGeneric(typeof (EventPublisher<>)).AsImplementedInterfaces().InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof (EventSubscribersProvider<>)).AsImplementedInterfaces().InstancePerHttpRequest();
+            RegisterGenericTypes(builder, webAssembly, typeof (IEventSubscriber<>), true)
                 .ForEach(_ => _.InstancePerHttpRequest());
 
             //Build and set resolver
@@ -85,7 +91,9 @@ namespace DotNetAppStarterKit.SampleMvc
             {
                 var container = builder.Build();
 
-                DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
+                GlobalResolver = new AutofacDependencyResolver(container);
+
+                DependencyResolver.SetResolver(GlobalResolver);
             }
             catch (Exception ex)
             {

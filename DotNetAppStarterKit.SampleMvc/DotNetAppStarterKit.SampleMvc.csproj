@@ -147,6 +147,9 @@
     <Compile Include="DataProject\Context\DummyDataContext.cs" />
     <Compile Include="DataProject\Context\IDummyDataContext.cs" />
     <Compile Include="DataProject\Entity\Thingy.cs" />
+    <Compile Include="DataProject\Enums.cs" />
+    <Compile Include="DataProject\EventSubscriber\ThingyChangedEventSubscriber.cs" />
+    <Compile Include="DataProject\Event\ThingyChangedEvent.cs" />
     <Compile Include="DataProject\Query\GetThingyQuery.cs" />
     <Compile Include="DataProject\Query\GetAllThingysQuery.cs" />
     <Compile Include="DataProject\Query\Interface\IGetThingyQuery.cs" />
@@ -254,6 +257,7 @@
     <Content Include="Views\Thingy\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Application\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

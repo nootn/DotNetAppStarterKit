@@ -9,15 +9,14 @@
 // */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.Command;
+using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Mappers;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
-using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
+using DotNetAppStarterKit.SampleMvc.DataProject.Event;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 {
@@ -25,17 +24,19 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
     {
         private readonly IDummyDataContext _context;
         private readonly ThingyCommandDtoToThingyMapper _mapper;
-        private readonly ICacheProvider<IEnumerable<ThingyQueryDto>> _cacheProviderGetAll;
+        private readonly IEventPublisher<ThingyChangedEvent> _publisherThingyChanged;
 
-        public SaveThingyCommand(IDummyDataContext context, ThingyCommandDtoToThingyMapper mapper, ICacheProvider<IEnumerable<ThingyQueryDto>> cacheProviderGetAll)
+        public SaveThingyCommand(IDummyDataContext context, ThingyCommandDtoToThingyMapper mapper,
+                                 IEventPublisher<ThingyChangedEvent> publisherThingyChanged)
         {
             _context = context;
             _mapper = mapper;
-            _cacheProviderGetAll = cacheProviderGetAll;
+            _publisherThingyChanged = publisherThingyChanged;
         }
 
         public override void Execute(ThingyCommandDto model)
         {
+            Enums.ChangeAction action;
             var item = model.Id == Guid.Empty
                            ? null
                            : _context.Thingys.SingleOrDefault(_ => _.Id == model.Id);
@@ -47,14 +48,19 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
                 //create a new entity and mark it to be added
                 item = _context.Thingys.Create();
                 _context.Thingys.Add(item);
+
+                action = Enums.ChangeAction.Added;
+            }
+            else
+            {
+                action = Enums.ChangeAction.Updated;
             }
             _mapper.Map(model, item);
 
             _context.SaveChanges();
 
-            //remove relevant cached items so they get refreshed
-            _cacheProviderGetAll.RemoveCachedItem("");
-            
+            //Notify others that something has happened
+            _publisherThingyChanged.Publish(new ThingyChangedEvent {Action = action, ThingyId = model.Id});
         }
     }
 }

@@ -23,7 +23,7 @@
         <ul>
             @foreach (var currThingy in Model.Thingys)
             {
-                <li>@Html.ActionLink(currThingy.Name, "Index", "Thingy", new { id = currThingy.Id }, null)</li>
+                <li>@Html.ActionLink(currThingy.Name ?? "[Unknown]", "Index", "Thingy", new { id = currThingy.Id }, null)</li>
             }
         </ul>
     }

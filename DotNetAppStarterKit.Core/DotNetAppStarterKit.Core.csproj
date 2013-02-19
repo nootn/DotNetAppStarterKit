@@ -44,6 +44,11 @@
     <Compile Include="Command\ICommand%27.cs" />
     <Compile Include="Command\ICommand%27%27.cs" />
     <Compile Include="DateAndTime\TimeFactory.cs" />
+    <Compile Include="Event\EventPublisher%27.cs" />
+    <Compile Include="Event\EventSubscribersProvider%27.cs" />
+    <Compile Include="Event\IEventSubscriber%27.cs" />
+    <Compile Include="Event\IEventPublisher%27.cs" />
+    <Compile Include="Event\IEventSubscribersProvider%27.cs" />
     <Compile Include="Logging\ILog%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Query\QueryBase%27.cs" />
