@@ -1,5 +1,6 @@
 bin/
 obj/
+App_Data/
 *.suo
 */TestResults/*
 *.testsettings
@@ -16,7 +17,10 @@ Thumbs.db
 *.log
 *.swp
 *.user
+*.mdf
+*.ldf
 _compareTemp
 _notes
 aspnet_client
 httpd.parse.errors
+!ResharperSettings.DotSettings

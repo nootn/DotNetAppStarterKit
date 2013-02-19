@@ -49,7 +49,13 @@ namespace DotNetAppStarterKit.SampleMvc
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
             //Configure EF
-            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DummyDataContext>());
+            if (Database.Exists("DummyDataContext"))
+            {
+                Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DummyDataContext>());
+            }
+
+            //Ensure all our Mappers are OK
+            MappingSetup.AssertConfigurationIsValidInAllMappers();
 
             //IOC Setup - example using AutoFac
             ConfigureIoc();
