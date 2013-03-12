@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Web.Mvc</id>
-    <version>1.0.2.0</version>
+    <version>1.0.3.0</version>
     <releaseNotes>
-      * Fixes potential null reference exception in IpRestrictionGlobalFilter
+      * Fixes bug in IpRestrictionGlobalFilter when DNS are supplied but not IP
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -15,7 +15,7 @@
     <copyright>Copyright http://www.nootn.com.au 2013</copyright>
     <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet web webforms mvc caching cache logging log security nootn</tags>
     <dependencies>
-      <dependency id="DotNetAppStarterKit.Web" version="1.0.1.0" />
+      <dependency id="DotNetAppStarterKit.Web" version="1.0.3.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="4.0.20710.0" />
     </dependencies>
     <frameworkAssemblies>

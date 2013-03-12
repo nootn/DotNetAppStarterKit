@@ -12,9 +12,8 @@ using System.Threading.Tasks;
 
 namespace DotNetAppStarterKit.Core.Query
 {
-    public interface IQuery<TR>
+    public interface ICachedQuery<in T, TR> : IQuery<T, TR>
     {
-        TR Execute();
-        Task<TR> ExecuteAsync();
+        TR ExecuteCached(T model);
     }
 }

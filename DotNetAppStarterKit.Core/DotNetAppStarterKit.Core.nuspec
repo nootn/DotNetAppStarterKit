@@ -2,9 +2,10 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.4.0</version>
+    <version>1.0.5.0</version>
     <releaseNotes>
-      * Adds Event Publisher and Subscriber functionality.  See DotNetAppStarterKit.SampleMvc app for how to use them: https://github.com/nootn/DotNetAppStarterKit/tree/master/DotNetAppStarterKit.SampleMvc.
+      * Enhances logging functionality
+      * POTENTIAL BREAKING CHANGE: Splits Caching out of IQuery into ICachedQuery - just change anything that breaks to use ICachedQuery/CachedQueryBase
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>

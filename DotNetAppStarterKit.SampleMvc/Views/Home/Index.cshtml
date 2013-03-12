@@ -1,31 +1,6 @@
-﻿@using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto
-@model DotNetAppStarterKit.SampleMvc.Models.AllThingysModel
-
-@{
-    ViewBag.Title = "Home Page";
-
-    if (Model.Thingys == null)
-    {
-        Model.Thingys = new List<ThingyQueryDto>();
-    }
-}
+﻿
+@model dynamic
 
 <h2>@ViewBag.Title</h2>
-<fieldset>
-    @if (!Model.Thingys.Any())
-    {
-        <legend>No Thingys</legend>
-        <p>Select "Add new thingy" below to create your first thingy!</p>
-    }
-    else
-    {
-        <legend>Your Thingys:</legend>
-        <ul>
-            @foreach (var currThingy in Model.Thingys)
-            {
-                <li>@Html.ActionLink(currThingy.Name ?? "[Unknown]", "Index", "Thingy", new { id = currThingy.Id }, null)</li>
-            }
-        </ul>
-    }
-    @Html.ActionLink("Add new thingy", "Index", "Thingy")
-</fieldset>
+
+@Html.ActionLink("Manage Thingys", "Index", "Thingys")

@@ -30,7 +30,7 @@ namespace DotNetAppStarterKit.Web.Mvc.Filters
 
         public static Func<string[]> RestrictToDnsAlias =
             () =>
-            string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["IpRestriction-DnsAliasCommaSeparatedd"])
+            string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["IpRestriction-DnsAliasCommaSeparated"])
                 ? null
                 : ConfigurationManager.AppSettings["IpRestriction-DnsAliasCommaSeparated"].Split(',');
 
@@ -61,7 +61,7 @@ namespace DotNetAppStarterKit.Web.Mvc.Filters
 
                 var foundInRestricted = false;
 
-                if (restrictToIpAddresses.Any())
+                if (restrictToIpAddresses != null && restrictToIpAddresses.Any())
                 {
                     foundInRestricted = restrictToIpAddresses.Contains(clientIp);
                 }

@@ -19,7 +19,7 @@ using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
 {
-    public class GetThingyQuery : QueryBase<Guid, ThingyQueryDto>, IGetThingyQuery
+    public class GetThingyQuery : CachedQueryBase<Guid, ThingyQueryDto>, IGetThingyQuery
     {
         private readonly ICacheProvider<ThingyQueryDto> _cacheProvider;
         private readonly IDummyDataContext _context;

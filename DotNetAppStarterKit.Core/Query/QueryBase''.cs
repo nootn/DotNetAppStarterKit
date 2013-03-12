@@ -16,11 +16,6 @@ namespace DotNetAppStarterKit.Core.Query
     {
         public abstract TR Execute(T model);
 
-        public virtual TR ExecuteCached(T model)
-        {
-            return default(TR);
-        }
-
         public virtual Task<TR> ExecuteAsync(T model)
         {
             return new TaskFactory<TR>().StartNew(() => Execute(model));

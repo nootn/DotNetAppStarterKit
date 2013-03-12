@@ -49,8 +49,13 @@
     <Compile Include="Event\IEventSubscriber%27.cs" />
     <Compile Include="Event\IEventPublisher%27.cs" />
     <Compile Include="Event\IEventSubscribersProvider%27.cs" />
+    <Compile Include="Logging\ILogWithCallerInfo%27.cs" />
     <Compile Include="Logging\ILog%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Query\CachedQueryBase%27.cs" />
+    <Compile Include="Query\CachedQueryBase%27%27.cs" />
+    <Compile Include="Query\ICachedQuery%27%27.cs" />
+    <Compile Include="Query\ICachedQuery%27.cs" />
     <Compile Include="Query\QueryBase%27.cs" />
     <Compile Include="Query\IQuery%27.cs" />
     <Compile Include="Query\IQuery%27%27.cs" />

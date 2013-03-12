@@ -53,6 +53,13 @@
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.2.1-ci9004\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+    </Reference>
+    <Reference Include="Elmah.Mvc">
+      <HintPath>..\packages\Elmah.MVC.2.0.2\lib\net40\Elmah.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MvcMega.Forms">
       <HintPath>..\packages\MvcMegaForms.0.1.0.0\lib\MvcMega.Forms.dll</HintPath>
@@ -138,6 +145,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\ThingysController.cs" />
     <Compile Include="Controllers\ThingyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="DataProject\Command\CommandDto\ThingyCommandDto.cs" />
@@ -255,6 +263,7 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Thingy\Index.cshtml" />
+    <Content Include="Views\Thingys\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Application\" />

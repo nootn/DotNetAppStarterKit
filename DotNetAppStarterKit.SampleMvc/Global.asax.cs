@@ -27,6 +27,7 @@ using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.Web.Caching;
+using DotNetAppStarterKit.Web.Logging;
 using DotNetAppStarterKit.Web.Security;
 
 namespace DotNetAppStarterKit.SampleMvc
@@ -71,6 +72,7 @@ namespace DotNetAppStarterKit.SampleMvc
             //DotNetAppStarterKit components
             builder.RegisterType<User>().AsImplementedInterfaces().InstancePerHttpRequest();
             builder.RegisterGeneric(typeof (WebCacheProvider<>)).AsImplementedInterfaces().InstancePerHttpRequest();
+            builder.RegisterGeneric(typeof(TraceWithElmahErrorsAndCallerInfoLog<>)).AsImplementedInterfaces().InstancePerHttpRequest();
             RegisterGenericTypes(builder, webAssembly, typeof (ICommand<,>), true)
                 .ForEach(_ => _.InstancePerHttpRequest());
             RegisterGenericTypes(builder, webAssembly, typeof (ICommand<>), true)
@@ -78,6 +80,10 @@ namespace DotNetAppStarterKit.SampleMvc
             RegisterGenericTypes(builder, webAssembly, typeof (IQuery<,>), true)
                 .ForEach(_ => _.InstancePerHttpRequest());
             RegisterGenericTypes(builder, webAssembly, typeof (IQuery<>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof(ICachedQuery<,>), true)
+                .ForEach(_ => _.InstancePerHttpRequest());
+            RegisterGenericTypes(builder, webAssembly, typeof(ICachedQuery<>), true)
                 .ForEach(_ => _.InstancePerHttpRequest());
             RegisterGenericTypes(builder, webAssembly, typeof (MapperBase<,>), false)
                 .ForEach(_ => _.InstancePerHttpRequest());

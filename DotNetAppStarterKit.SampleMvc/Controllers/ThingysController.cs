@@ -9,12 +9,28 @@
 // */
 
 using System.Threading.Tasks;
+using System.Web.Mvc;
+using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
+using DotNetAppStarterKit.SampleMvc.Models;
 
-namespace DotNetAppStarterKit.Core.Query
+namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
-    public interface IQuery<TR>
+    public class ThingysController : Controller
     {
-        TR Execute();
-        Task<TR> ExecuteAsync();
+        private readonly IGetAllThingysQuery _getAllThingysQuery;
+
+        public ThingysController(IGetAllThingysQuery getAllThingysQuery)
+        {
+            _getAllThingysQuery = getAllThingysQuery;
+        }
+
+        public async Task<ActionResult> Index()
+        {
+            var model = new AllThingysModel
+                {
+                    Thingys = _getAllThingysQuery.ExecuteCached() ?? await _getAllThingysQuery.ExecuteAsync()
+                };
+            return View(model);
+        }
     }
 }
