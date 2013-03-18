@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Web.Mvc</id>
-    <version>1.0.3.0</version>
+    <version>1.0.4.0</version>
     <releaseNotes>
       * Removes references to HttpContext.Current - no functionality change
     </releaseNotes>
