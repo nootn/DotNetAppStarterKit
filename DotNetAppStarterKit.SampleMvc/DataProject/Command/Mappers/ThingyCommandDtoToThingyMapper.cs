@@ -8,6 +8,7 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
+using System;
 using AutoMapper;
 using DotNetAppStarterKit.Core.DateAndTime;
 using DotNetAppStarterKit.Mapping;
@@ -26,7 +27,8 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command.Mappers
 
         public override void SetValuesAfterAutomaticMapping(ThingyCommandDto sourceItem, ref Thingy mappedItem)
         {
-            //Set the UpdatedAt right before we save to the database
+            //Set the UpdatedAt right before we save to the database if we changed something
+            if (!sourceItem.Id.Equals(mappedItem.Id) && !string.Equals(sourceItem.Name, mappedItem.Name, StringComparison.CurrentCulture))
             mappedItem.UpdatedAt = TimeFactory.Now();
         }
     }

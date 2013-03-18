@@ -9,57 +9,63 @@
 // */
 
 using System;
-using System.Diagnostics;
+using System.Web;
 using DotNetAppStarterKit.Core.Logging;
 
 namespace DotNetAppStarterKit.Web.Logging
 {
     public class TraceLog<T> : ILog<T>
     {
+        protected readonly HttpContextBase Context;
+
+        public TraceLog(HttpContextBase context)
+        {
+            Context = context;
+        }
+
         public virtual void Debug(Func<string> message)
         {
-            Trace.TraceInformation(PrependTypeName(message()));
+            Context.Trace.Write("Debug", PrependTypeName(message()));
         }
 
         public virtual void Debug(string message, params object[] formatArgs)
         {
-            Trace.TraceInformation(PrependTypeName(message), formatArgs);
+            Context.Trace.Write("Debug", string.Format(PrependTypeName(message), formatArgs));
         }
 
         public virtual void Error(Func<string> message)
         {
-            Trace.TraceError(PrependTypeName(message()));
+            Context.Trace.Warn("Error", PrependTypeName(message()));
         }
 
         public virtual void Error(string message, Exception exception)
         {
-            Trace.TraceError(PrependTypeName("Message: {0};{1}Exception: {2}"), message, Environment.NewLine,
-                             exception.ToString());
+            Context.Trace.Warn("Error", message, exception);
         }
 
         public virtual void Error(string message, params object[] formatArgs)
         {
-            Trace.TraceError(PrependTypeName(message), formatArgs);
+            Context.Trace.Warn("Error", string.Format(PrependTypeName(message), formatArgs));
         }
 
         public virtual void Information(Func<string> message)
         {
-            Trace.TraceInformation(PrependTypeName(message()));
+            Context.Trace.Write("Information", PrependTypeName(message()));
         }
 
         public virtual void Information(string message, params object[] formatArgs)
         {
-            Trace.TraceInformation(PrependTypeName(message), formatArgs);
+            Context.Trace.Write("Information", string.Format(PrependTypeName(message), formatArgs));
         }
 
         public virtual void Warning(Func<string> message)
         {
-            Trace.TraceWarning(PrependTypeName(message()));
+            Context.Trace.Warn("Warning", PrependTypeName(message()));
         }
 
         public virtual void Warning(string message, params object[] formatArgs)
         {
-            Trace.TraceWarning(PrependTypeName(message), formatArgs);
+            Context.Trace.Warn("Warning", string.Format(PrependTypeName(message), formatArgs));
         }
 
         protected string PrependTypeName(string message)

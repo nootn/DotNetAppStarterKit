@@ -50,8 +50,14 @@
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.0.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
     </Reference>
+    <Reference Include="AutofacContrib.DynamicProxy">
+      <HintPath>..\packages\AutofacContrib.DynamicProxy.2.3.2.632\lib\net40\AutofacContrib.DynamicProxy.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.2.2.1-ci9004\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Castle.Core">
+      <HintPath>..\packages\Castle.Core.3.1.0\lib\net40-client\Castle.Core.dll</HintPath>
     </Reference>
     <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -61,6 +67,13 @@
       <HintPath>..\packages\Elmah.MVC.2.0.2\lib\net40\Elmah.Mvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MiniProfiler, Version=2.1.0.0, Culture=neutral, PublicKeyToken=b44f9351044011a3, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\MiniProfiler.2.1.0\lib\net40\MiniProfiler.dll</HintPath>
+    </Reference>
+    <Reference Include="MiniProfiler.EntityFramework">
+      <HintPath>..\packages\MiniProfiler.EF.2.1.0\lib\net40\MiniProfiler.EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="MvcMega.Forms">
       <HintPath>..\packages\MvcMegaForms.0.1.0.0\lib\MvcMega.Forms.dll</HintPath>
     </Reference>
@@ -131,6 +144,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.2.0.20710.0\lib\net40\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivator">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.1.0\lib\WebGrease.dll</HintPath>
@@ -141,8 +157,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\Interceptors\MiniProfilerAndLoggerInterceptor.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MiniProfiler.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ThingysController.cs" />
@@ -264,9 +282,9 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Thingy\Index.cshtml" />
     <Content Include="Views\Thingys\Index.cshtml" />
+    <Content Include="Views\Shared\_MINIPROFILER UPDATED Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Application\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

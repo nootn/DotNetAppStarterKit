@@ -17,22 +17,27 @@ namespace DotNetAppStarterKit.Web.Logging
 {
     public class TraceWithElmahErrorsLog<T> : TraceLog<T>
     {
+        public TraceWithElmahErrorsLog(HttpContextBase context)
+            : base(context)
+        {
+        }
+
         public override void Error(Func<string> message)
         {
             base.Error(message);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(message())));
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(new Error(new ApplicationException(message())));
         }
 
         public override void Error(string message, Exception exception)
         {
             base.Error(message, exception);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(message, exception)));
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(new Error(new ApplicationException(message, exception)));
         }
 
         public override void Error(string message, params object[] formatArgs)
         {
             base.Error(message, formatArgs);
-            ErrorLog.GetDefault(HttpContext.Current).Log(
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(
                 new Error(new ApplicationException(string.Format(message, formatArgs))));
         }
     }

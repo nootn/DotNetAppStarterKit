@@ -18,45 +18,52 @@ namespace DotNetAppStarterKit.Web.Logging
 {
     public class TraceWithElmahErrorsAndCallerInfoLog<T> : TraceWithCallerInfoLog<T>
     {
+        public TraceWithElmahErrorsAndCallerInfoLog(HttpContextBase context)
+            : base(context)
+        {
+        }
+
         public override void Error(Func<string> message)
         {
             base.Error(message);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(message())));
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(new Error(new ApplicationException(message())));
         }
 
         public override void Error(string message, Exception exception)
         {
             base.Error(message, exception);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(message, exception)));
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(new Error(new ApplicationException(message, exception)));
         }
 
         public override void Error(string message, params object[] formatArgs)
         {
             base.Error(message, formatArgs);
-            ErrorLog.GetDefault(HttpContext.Current).Log(
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context).Log(
                 new Error(new ApplicationException(string.Format(message, formatArgs))));
         }
 
-        public override void Error(Func<string> message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public override void ErrorWithCallerInfo(Func<string> message, [CallerFilePath] string sourceFilePath = "",
+                                   [CallerMemberName] string memberName = "",
+                                   [CallerLineNumber] int sourceLineNumber = 0)
         {
-            base.Error(message, sourceFilePath, memberName, sourceLineNumber);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber))));
+            base.Error(message(), sourceFilePath, memberName, sourceLineNumber);
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context)
+                    .Log(
+                        new Error(
+                            new ApplicationException(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber))));
         }
 
-        public override void Error(string message, Exception exception, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public override void ErrorWithCallerInfo(string message, Exception exception, [CallerFilePath] string sourceFilePath = "",
+                                   [CallerMemberName] string memberName = "",
+                                   [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Error(message, exception, sourceFilePath, memberName, sourceLineNumber);
-            ErrorLog.GetDefault(HttpContext.Current).Log(new Error(new ApplicationException(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), exception)));
+            ErrorLog.GetDefault(Context.ApplicationInstance.Context)
+                    .Log(
+                        new Error(
+                            new ApplicationException(
+                                PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), exception)));
         }
 
-        public override void Error(string message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0, params object[] formatArgs)
-        {
-            base.Error(message, sourceFilePath, memberName, sourceLineNumber, formatArgs);
-            ErrorLog.GetDefault(HttpContext.Current).Log(
-                new Error(new ApplicationException(string.Format(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), formatArgs))));
-        }
     }
 }

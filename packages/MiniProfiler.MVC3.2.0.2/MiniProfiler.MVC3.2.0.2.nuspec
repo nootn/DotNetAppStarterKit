@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>MiniProfiler.MVC3</id>
+    <version>2.0.2</version>
+    <title>MiniProfiler.MVC3</title>
+    <authors>Marc Gravell, Sam Saffron, Jarrod Dixon</authors>
+    <owners>Marc Gravell, Sam Saffron, Jarrod Dixon</owners>
+    <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
+    <projectUrl>http://code.google.com/p/mvc-mini-profiler/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>ASP.NET MVC3 specific package for the Lightweight mini-profiler. We attempt to automatically hook up as much as possible including EF code first. This package is optional.</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>profiler sql mvc asp.net performance timing</tags>
+    <dependencies>
+      <dependency id="MiniProfiler" version="2.0.2" />
+      <dependency id="WebActivator" version="1.4" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.Web.Infrastructure" targetFramework=".NETFramework4.0" />
+    </frameworkAssemblies>
+    <references />
+  </metadata>
+</package>

@@ -11,71 +11,54 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Web;
 using DotNetAppStarterKit.Core.Logging;
 
 namespace DotNetAppStarterKit.Web.Logging
 {
     public class TraceWithCallerInfoLog<T> : TraceLog<T>, ILogWithCallerInfo<T>
     {
-        public virtual void Debug(string message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0,
-                          params object[] formatArgs)
+        public TraceWithCallerInfoLog(HttpContextBase context)
+            : base(context)
         {
-            base.Debug(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), formatArgs);
         }
 
-        public virtual void Debug(Func<string> message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public virtual void DebugWithCallerInfo(Func<string> message, [CallerFilePath] string sourceFilePath = "",
+                                  [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Debug(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber));
         }
 
-        public virtual void Information(string message, [CallerFilePath] string sourceFilePath = "",
-                                [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0,
-                                params object[] formatArgs)
-        {
-            base.Information(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), formatArgs);
-        }
-
-        public virtual void Information(Func<string> message, [CallerFilePath] string sourceFilePath = "",
-                                [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public virtual void InformationWithCallerInfo(Func<string> message, [CallerFilePath] string sourceFilePath = "",
+                                        [CallerMemberName] string memberName = "",
+                                        [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Information(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber));
         }
 
-        public virtual void Warning(string message, [CallerFilePath] string sourceFilePath = "",
-                            [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0,
-                            params object[] formatArgs)
-        {
-            base.Warning(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), formatArgs);
-        }
 
-        public virtual void Warning(Func<string> message, [CallerFilePath] string sourceFilePath = "",
-                            [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public virtual void WarningWithCallerInfo(Func<string> message, [CallerFilePath] string sourceFilePath = "",
+                                    [CallerMemberName] string memberName = "",
+                                    [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Warning(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber));
         }
 
-        public virtual void Error(string message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0,
-                          params object[] formatArgs)
-        {
-            base.Error(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), formatArgs);
-        }
 
-        public virtual void Error(Func<string> message, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public virtual void ErrorWithCallerInfo(Func<string> message, [CallerFilePath] string sourceFilePath = "",
+                                  [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Error(PrependInfo(message(), memberName, sourceFilePath, sourceLineNumber));
         }
 
-        public virtual void Error(string message, Exception exception, [CallerFilePath] string sourceFilePath = "",
-                          [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
+        public virtual void ErrorWithCallerInfo(string message, Exception exception, [CallerFilePath] string sourceFilePath = "",
+                                  [CallerMemberName] string memberName = "", [CallerLineNumber] int sourceLineNumber = 0)
         {
             base.Debug(PrependInfo(message, memberName, sourceFilePath, sourceLineNumber), exception);
         }
 
-        protected static string PrependInfo(string message, string memberName, string sourceFilePath, int sourceLineNumber)
+        protected static string PrependInfo(string message, string memberName, string sourceFilePath,
+                                            int sourceLineNumber)
         {
             var res = new StringBuilder();
 
