@@ -15,7 +15,6 @@ namespace DotNetAppStarterKit.Core.Query
     public interface IQuery<TR>
     {
         TR Execute();
-        TR ExecuteCached();
         Task<TR> ExecuteAsync();
     }
 }

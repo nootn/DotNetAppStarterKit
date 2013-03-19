@@ -1,5 +1,5 @@
 ﻿// /*
-// Copyright (c) 2013 Andrew Newton (http://www.nootn.com.au)
+// Copyright (c) 2013 Andrew Newton (http://www.nootn.com)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -10,8 +10,10 @@
 
 using System;
 using System.Linq;
+using System.Threading;
 using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.Logging;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Mappers;
@@ -23,15 +25,18 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
     public class SaveThingyCommand : CommandBase<ThingyCommandDto>, ISaveThingyCommand
     {
         private readonly IDummyDataContext _context;
+        private readonly ILogWithCallerInfo<SaveThingyCommand> _log;
         private readonly ThingyCommandDtoToThingyMapper _mapper;
         private readonly IEventPublisher<ThingyChangedEvent> _publisherThingyChanged;
 
         public SaveThingyCommand(IDummyDataContext context, ThingyCommandDtoToThingyMapper mapper,
-                                 IEventPublisher<ThingyChangedEvent> publisherThingyChanged)
+                                 IEventPublisher<ThingyChangedEvent> publisherThingyChanged,
+                                 ILogWithCallerInfo<SaveThingyCommand> log)
         {
             _context = context;
             _mapper = mapper;
             _publisherThingyChanged = publisherThingyChanged;
+            _log = log;
         }
 
         public override void Execute(ThingyCommandDto model)
@@ -50,14 +55,34 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
                 _context.Thingys.Add(item);
 
                 action = Enums.ChangeAction.Added;
+                _log.InformationWithCallerInfo(
+                    () => string.Format("[ThreadId: {1}] Did not exist, will add with new id '{0}'", model.Id,
+                                        Thread.CurrentThread.ManagedThreadId));
             }
             else
             {
                 action = Enums.ChangeAction.Updated;
+                _log.InformationWithCallerInfo(
+                    () =>
+                    string.Format(
+                        "[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id,
+                        Thread.CurrentThread.ManagedThreadId));
             }
             _mapper.Map(model, item);
 
-            _context.SaveChanges();
+            var res = _context.SaveChanges();
+
+            if (res > 0)
+            {
+                _log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Changes were saved on '{0}'", model.Id,
+                                                     Thread.CurrentThread.ManagedThreadId));
+            }
+            else
+            {
+                action = Enums.ChangeAction.None;
+                _log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] No changes were saved on '{0}'", model.Id,
+                                                     Thread.CurrentThread.ManagedThreadId));
+            }
 
             //Notify others that something has happened
             _publisherThingyChanged.Publish(new ThingyChangedEvent {Action = action, ThingyId = model.Id});

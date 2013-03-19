@@ -30,18 +30,7 @@ namespace DotNetAppStarterKit.Core.Event
 
         private static void PublishToConsumer(IEventSubscriber<T> consumer, T data)
         {
-            try
-            {
-                consumer.Handle(data);
-            }
-            finally
-            {
-                var instance = consumer as IDisposable;
-                if (instance != null)
-                {
-                    instance.Dispose();
-                }
-            }
+            consumer.Handle(data);
         }
     }
 }

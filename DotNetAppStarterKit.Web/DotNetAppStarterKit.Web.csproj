@@ -48,8 +48,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Caching\WebCacheProvider%27.cs" />
+    <Compile Include="Logging\TraceWithElmahErrorsAndCallerInfoLog.cs" />
+    <Compile Include="Logging\TraceWithCallerInfoLog.cs" />
+    <Compile Include="Logging\TraceLog.cs" />
     <Compile Include="Logging\Log4NetLog.cs" />
     <Compile Include="Logging\Log4NetWithElmahErrorsLog.cs" />
+    <Compile Include="Logging\TraceWithElmahErrorsLog.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\User.cs" />
   </ItemGroup>
