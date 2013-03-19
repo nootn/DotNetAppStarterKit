@@ -174,7 +174,11 @@
     <Compile Include="DataProject\Context\IDummyDataContext.cs" />
     <Compile Include="DataProject\Entity\Thingy.cs" />
     <Compile Include="DataProject\Enums.cs" />
+    <Compile Include="DataProject\EventSubscriber\ThingyRetrievedEventSubscriber.cs" />
+    <Compile Include="DataProject\EventSubscriber\ThingysRetrievedEventSubscriber.cs" />
     <Compile Include="DataProject\EventSubscriber\ThingyChangedEventSubscriber.cs" />
+    <Compile Include="DataProject\Event\ThingysRetrievedEvent.cs" />
+    <Compile Include="DataProject\Event\ThingyRetrievedEvent.cs" />
     <Compile Include="DataProject\Event\ThingyChangedEvent.cs" />
     <Compile Include="DataProject\Query\GetThingyQuery.cs" />
     <Compile Include="DataProject\Query\GetAllThingysQuery.cs" />
