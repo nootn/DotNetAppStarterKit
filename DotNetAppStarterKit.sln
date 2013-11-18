@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Mapping
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture", "DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture\DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture.csproj", "{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.SampleMvc.UnitTests", "DotNetAppStarterKit.SampleMvc.UnitTests\DotNetAppStarterKit.SampleMvc.UnitTests.csproj", "{98BD4123-0B75-4C1C-A86A-23ACEDDBF86E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +54,10 @@ Global
 		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98BD4123-0B75-4C1C-A86A-23ACEDDBF86E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98BD4123-0B75-4C1C-A86A-23ACEDDBF86E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98BD4123-0B75-4C1C-A86A-23ACEDDBF86E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98BD4123-0B75-4C1C-A86A-23ACEDDBF86E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
