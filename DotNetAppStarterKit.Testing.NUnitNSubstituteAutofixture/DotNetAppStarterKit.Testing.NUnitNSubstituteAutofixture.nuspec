@@ -1,0 +1,32 @@
+﻿<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture</id>
+    <version>1.0.0.0</version>
+    <releaseNotes>
+      Initial version with basic classes.  See examples of usage in project DotNetAppStarterKit.SampleMvc.UnitTests
+    </releaseNotes>
+    <authors>http://www.nootn.com.au</authors>
+    <owners>http://www.nootn.com.au</owners>
+    <projectUrl>http://nootn.github.com/DotNetAppStarterKit</projectUrl>
+    <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Gets you up and going with a DotNet app quicker by providing common classes to help with writing automated tests.</description>
+    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <tags>DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture DotNetAppStarterKit .net dotnet nsubstitute nunit autofixture AutoNSubstitute testing test nootn</tags>
+    <dependencies>
+      <dependency id="AutoFixture.AutoNSubstitute" />
+      <dependency id="NUnit" />
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
+      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="bin\release\DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture.dll" target="lib\net45" />
+  </files>
+</package>

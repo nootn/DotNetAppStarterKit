@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Core", "DotNetAppStarterKit.Core\DotNetAppStarterKit.Core.csproj", "{AF4C8297-55EE-4C08-BAEA-366BA3E19193}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Web", "DotNetAppStarterKit.Web\DotNetAppStarterKit.Web.csproj", "{C7EDDE50-F531-4E57-86A0-04C3196BB625}"
@@ -17,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.SampleMvc", "DotNetAppStarterKit.SampleMvc\DotNetAppStarterKit.SampleMvc.csproj", "{809BB977-0017-4A19-B5B2-37C441BB6132}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Mapping", "DotNetAppStarterKit.Mapping\DotNetAppStarterKit.Mapping.csproj", "{267DA725-97C5-4A8D-8104-A1D0A0265E29}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture", "DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture\DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture.csproj", "{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,10 @@ Global
 		{267DA725-97C5-4A8D-8104-A1D0A0265E29}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{267DA725-97C5-4A8D-8104-A1D0A0265E29}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{267DA725-97C5-4A8D-8104-A1D0A0265E29}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDAAAEE0-C542-44E4-9F9A-DA4CC97FFCD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
