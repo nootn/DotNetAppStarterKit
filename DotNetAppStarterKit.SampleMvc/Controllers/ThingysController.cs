@@ -17,7 +17,7 @@ using DotNetAppStarterKit.SampleMvc.Models;
 
 namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
-    public class ThingysController : Controller
+    public partial class ThingysController : Controller
     {
         public readonly IGetAllThingysQuery GetAllThingysQuery;
 
@@ -26,7 +26,7 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
             GetAllThingysQuery = getAllThingysQuery;
         }
 
-        public async Task<ActionResult> Index()
+        public virtual async Task<ActionResult> Index()
         {
             var model = new AllThingysModel
             {

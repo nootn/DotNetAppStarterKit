@@ -23,9 +23,9 @@
         <ul>
             @foreach (var currThingy in Model.Thingys)
             {
-                <li>@Html.ActionLink(currThingy.Name ?? "[Unknown]", "Index", "Thingy", new { id = currThingy.Id }, null)</li>
+                <li>@Html.ActionLink(currThingy.Name ?? "[Unknown]", MVC.Thingy.Index(currThingy.Id))</li>
             }
         </ul>
     }
-    @Html.ActionLink("Add new thingy", "Index", "Thingy")
+    @Html.ActionLink("Add new thingy", MVC.Thingy.Index())
 </fieldset>

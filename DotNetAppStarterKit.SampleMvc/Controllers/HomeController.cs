@@ -12,9 +12,9 @@ using System.Web.Mvc;
 
 namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
-    public class HomeController : Controller
+    public partial class HomeController : Controller
     {
-        public ActionResult Index()
+        public virtual ActionResult Index()
         {
             return View();
         }

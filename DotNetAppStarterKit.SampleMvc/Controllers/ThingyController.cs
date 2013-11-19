@@ -18,7 +18,7 @@ using DotNetAppStarterKit.SampleMvc.Models.Mappers;
 
 namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
-    public class ThingyController : Controller
+    public partial class ThingyController : Controller
     {
         private readonly ThingyQueryDtoToThingyModelMapper _dtoToModelMapper;
         private readonly ISaveThingyCommand _saveThingyCommand;
@@ -31,7 +31,7 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
             _saveThingyCommand = saveThingyCommand;
         }
 
-        public async Task<ActionResult> Index(Guid? id)
+        public virtual async Task<ActionResult> Index(Guid? id)
         {
             var model = new ThingyModel();
             if (id != null && id != Guid.Empty)
@@ -44,12 +44,12 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Index(ThingyModel model)
+        public virtual async Task<ActionResult> Index(ThingyModel model)
         {
             if (ModelState.IsValid)
             {
                 await _saveThingyCommand.ExecuteAsync(model);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(MVC.Home.Index());
             }
             return View(model);
         }
