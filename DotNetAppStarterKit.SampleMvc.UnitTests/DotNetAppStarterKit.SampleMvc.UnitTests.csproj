@@ -86,8 +86,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\HomeControllerSpecFor.cs" />
+    <Compile Include="Controllers\ControllerSpecFor%27.cs" />
     <Compile Include="Controllers\HomeControllerTests\IndexWithNoParameters.cs" />
+    <Compile Include="Controllers\ThingysControllerTests\IndexWithNoParametersAndNoCache.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

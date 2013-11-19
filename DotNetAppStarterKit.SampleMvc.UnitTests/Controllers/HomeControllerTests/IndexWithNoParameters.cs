@@ -16,7 +16,7 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.HomeControllerTests
 {
-    public class IndexWithNoParameters : HomeControllerSpecFor
+    public class IndexWithNoParameters : ControllerSpecFor<HomeController>
     {
         protected override HomeController Given()
         {
@@ -32,7 +32,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.HomeControllerTest
         [Then]
         public void ShouldRenderCorrectView()
         {
-            //TODO: get view name a "better" way
             Result.ViewName.Should().Be("");
         }
 

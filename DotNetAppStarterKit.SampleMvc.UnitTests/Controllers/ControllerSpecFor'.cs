@@ -9,22 +9,21 @@
 // */
 
 using System.Web.Mvc;
-using DotNetAppStarterKit.SampleMvc.Controllers;
 using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
 using Ploeh.AutoFixture.AutoNSubstitute;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers
 {
-    public abstract class HomeControllerSpecFor : AutoSpecFor<HomeController>
+    public abstract class ControllerSpecFor<T> : AutoSpecFor<T> where T : ControllerBase
     {
         protected ViewResult Result { get; set; }
 
-        protected HomeControllerSpecFor()
+        protected ControllerSpecFor()
         {
             Fixture.Customize(new AutoNSubstituteCustomization());
 
-            //If we don't do this, it tries to initiate things like HttpContextBase and chucks a wobbly
-            Fixture.Customize<HomeController>(c => c.OmitAutoProperties());
+            //If we don't do this, it tries to set things like HttpContextBase and chucks a wobbly
+            Fixture.Customize<T>(c => c.OmitAutoProperties());
         }
     }
 }

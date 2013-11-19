@@ -8,28 +8,30 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
+using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 using DotNetAppStarterKit.SampleMvc.Models;
 
 namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
     public class ThingysController : Controller
     {
-        private readonly IGetAllThingysQuery _getAllThingysQuery;
+        public readonly IGetAllThingysQuery GetAllThingysQuery;
 
         public ThingysController(IGetAllThingysQuery getAllThingysQuery)
         {
-            _getAllThingysQuery = getAllThingysQuery;
+            GetAllThingysQuery = getAllThingysQuery;
         }
 
         public async Task<ActionResult> Index()
         {
             var model = new AllThingysModel
-                {
-                    Thingys = _getAllThingysQuery.ExecuteCached() ?? await _getAllThingysQuery.ExecuteAsync()
-                };
+            {
+                Thingys = (GetAllThingysQuery.ExecuteCached() ?? await GetAllThingysQuery.ExecuteAsync()) ?? new List<ThingyQueryDto>(),
+            };
             return View(model);
         }
     }
