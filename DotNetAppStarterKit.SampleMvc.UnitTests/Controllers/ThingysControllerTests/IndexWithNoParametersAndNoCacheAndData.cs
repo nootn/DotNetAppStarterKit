@@ -8,9 +8,8 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using System;
 using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.Controllers;
@@ -19,33 +18,29 @@ using DotNetAppStarterKit.SampleMvc.Models;
 using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
 using FluentAssertions;
 using NSubstitute;
-using NSubstitute.Core;
-using NUnit.Framework;
 using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerTests
 {
-    public class IndexWithNoParametersAndNoCache : ControllerSpecFor<ThingysController>
+    public class IndexWithNoParametersAndNoCacheAndData : ControllerSpecFor<ThingysController>
     {
+        private List<ThingyQueryDto> _validResults;
+
         protected override ThingysController Given()
         {
+            _validResults = Fixture.Create<List<ThingyQueryDto>>();
+
             var controller = Fixture.Create<ThingysController>();
-            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
-            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
+            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(_validResults);
+            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(_validResults.AsEnumerable()));
             controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index().ContinueWith(_ => { Result = (ViewResult)_.Result; }).Wait();
+            Subject.Index().ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
         }
-
-        private void SetResult(ActionResult res)
-        {
-            Result = (ViewResult)res;
-        }
-
 
         [Then]
         public void ShouldRenderCorrectView()
@@ -54,9 +49,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         }
 
         [Then]
-        public void ShouldHaveEmptyThingysCollection()
+        public void ShouldHavePopulatedThingysCollection()
         {
-            ((AllThingysModel)Result.Model).Thingys.Should().BeEmpty();
+            ((AllThingysModel)Result.Model).Thingys.Should().ContainInOrder(_validResults);
         }
 
         [Then]
