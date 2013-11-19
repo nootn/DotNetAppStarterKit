@@ -20,15 +20,15 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
     public partial class ThingyController : Controller
     {
-        private readonly ThingyQueryDtoToThingyModelMapper _dtoToModelMapper;
-        private readonly ISaveThingyCommand _saveThingyCommand;
-        private readonly IGetThingyQuery _getThingyQuery;
+        public readonly ThingyQueryDtoToThingyModelMapper DtoToModelMapper;
+        public readonly ISaveThingyCommand SaveThingyCommand;
+        public readonly IGetThingyQuery GetThingyQuery;
 
         public ThingyController(IGetThingyQuery getThingyQuery, ThingyQueryDtoToThingyModelMapper dtoToModelMapper, ISaveThingyCommand saveThingyCommand)
         {
-            _getThingyQuery = getThingyQuery;
-            _dtoToModelMapper = dtoToModelMapper;
-            _saveThingyCommand = saveThingyCommand;
+            GetThingyQuery = getThingyQuery;
+            DtoToModelMapper = dtoToModelMapper;
+            SaveThingyCommand = saveThingyCommand;
         }
 
         public virtual async Task<ActionResult> Index(Guid? id)
@@ -36,9 +36,11 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
             var model = new ThingyModel();
             if (id != null && id != Guid.Empty)
             {
-                model =
-                    _dtoToModelMapper.Map(
-                        _getThingyQuery.ExecuteCached(id.Value) ?? await _getThingyQuery.ExecuteAsync(id.Value), model);
+                var res = GetThingyQuery.ExecuteCached(id.Value) ?? await GetThingyQuery.ExecuteAsync(id.Value);
+                if (res != null)
+                {
+                    model = DtoToModelMapper.Map(res, new ThingyModel());
+                }
             }
             return View(model);
         }
@@ -48,7 +50,7 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _saveThingyCommand.ExecuteAsync(model);
+                await SaveThingyCommand.ExecuteAsync(model);
                 return RedirectToAction(MVC.Home.Index());
             }
             return View(model);

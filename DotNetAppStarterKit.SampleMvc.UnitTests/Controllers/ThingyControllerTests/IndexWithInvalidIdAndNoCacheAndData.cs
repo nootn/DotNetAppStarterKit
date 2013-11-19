@@ -8,7 +8,7 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using System.Collections.Generic;
+using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.Controllers;
@@ -19,23 +19,28 @@ using FluentAssertions;
 using NSubstitute;
 using Ploeh.AutoFixture;
 
-namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerTests
+namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTests
 {
-    public class IndexWithNoParametersAndNoCacheAndNoData : ControllerSpecFor<ThingysController>
+    public class IndexWithInvalidIdAndNoCacheAndData : ControllerSpecFor<ThingyController>
     {
-        protected override ThingysController Given()
+        private Guid _invalidId;
+
+        protected override ThingyController Given()
         {
-            var controller = Fixture.Create<ThingysController>();
-            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
-            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
-            controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
+            _invalidId = Fixture.Create<Guid>();
+
+            var controller = Fixture.Create<ThingyController>();
+            controller.GetThingyQuery.Execute(_invalidId).Returns(default(ThingyQueryDto));
+            controller.GetThingyQuery.ExecuteAsync(_invalidId).Returns(Task.FromResult(default(ThingyQueryDto)));
+            controller.GetThingyQuery.ExecuteCached(Guid.Empty).ReturnsForAnyArgs(default(ThingyQueryDto));
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index().ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
+            Subject.Index(_invalidId).ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
         }
+
 
         [Then]
         public void ShouldRenderCorrectView()
@@ -44,27 +49,27 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         }
 
         [Then]
-        public void ShouldHaveEmptyThingysCollection()
+        public void ShouldHaveNewThingy()
         {
-            ((AllThingysModel) Result.Model).Thingys.Should().BeEmpty();
+            ((ThingyModel) Result.Model).Id.Should().Be(Guid.Empty);
         }
 
         [Then]
         public void ShouldHaveTriedToGetCachedResults()
         {
-            Subject.GetAllThingysQuery.ReceivedWithAnyArgs(1).ExecuteCached();
+            Subject.GetThingyQuery.Received().ExecuteCached(_invalidId);
         }
 
         [Then]
         public void ShouldHaveTriedToGetAsyncResults()
         {
-            Subject.GetAllThingysQuery.ReceivedWithAnyArgs(1).ExecuteAsync();
+            Subject.GetThingyQuery.Received().ExecuteAsync(_invalidId);
         }
 
         [Then]
         public void ShouldNotHaveTriedToGetSyncResults()
         {
-            Subject.GetAllThingysQuery.DidNotReceiveWithAnyArgs().Execute();
+            Subject.GetThingyQuery.DidNotReceiveWithAnyArgs().Execute(Guid.Empty);
         }
     }
 }
