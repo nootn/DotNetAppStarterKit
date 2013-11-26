@@ -27,26 +27,27 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         {
             var controller = Fixture.Create<ThingysController>();
             controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
-            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
+            controller.GetAllThingysQuery.ExecuteAsync()
+                .ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
             controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index().ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
+            Subject.Index().ContinueWith(_ => { Result = _.Result; }).Wait();
         }
 
         [Then]
         public void ShouldRenderCorrectView()
         {
-            Result.ViewName.Should().Be("");
+            ((ViewResult) Result).ViewName.Should().Be("");
         }
 
         [Then]
         public void ShouldHaveEmptyThingysCollection()
         {
-            ((AllThingysModel) Result.Model).Thingys.Should().BeEmpty();
+            ((AllThingysModel) ((ViewResult) Result).Model).Thingys.Should().BeEmpty();
         }
 
         [Then]

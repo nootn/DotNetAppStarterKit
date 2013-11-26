@@ -26,19 +26,19 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.HomeControllerTest
 
         protected override void When()
         {
-            Result = (ViewResult) Subject.Index();
+            Result = Subject.Index();
         }
 
         [Then]
         public void ShouldRenderCorrectView()
         {
-            Result.ViewName.Should().Be("");
+            ((ViewResult) Result).ViewName.Should().Be("");
         }
 
         [Then]
         public void ShouldNotHaveAModel()
         {
-            Result.Model.Should().BeNull();
+            ((ViewResult) Result).Model.Should().BeNull();
         }
     }
 }

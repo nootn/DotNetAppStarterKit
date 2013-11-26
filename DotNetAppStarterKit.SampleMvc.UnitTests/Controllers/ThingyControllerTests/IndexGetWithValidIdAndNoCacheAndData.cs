@@ -38,20 +38,20 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
 
         protected override void When()
         {
-            Subject.Index(_validResult.Id).ContinueWith(_ => { Result = (ViewResult)_.Result; }).Wait();
+            Subject.Index(_validResult.Id).ContinueWith(_ => { Result = _.Result; }).Wait();
         }
 
 
         [Then]
         public void ShouldRenderCorrectView()
         {
-            Result.ViewName.Should().Be("");
+            ((ViewResult) Result).ViewName.Should().Be("");
         }
 
         [Then]
         public void ShouldReturnExistingThingy()
         {
-            ((ThingyModel) Result.Model).Id.Should().Be(_validResult.Id);
+            ((ThingyModel) ((ViewResult) Result).Model).Id.Should().Be(_validResult.Id);
         }
 
         [Then]

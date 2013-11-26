@@ -8,68 +8,55 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.Controllers;
-using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 using DotNetAppStarterKit.SampleMvc.Models;
 using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
 using FluentAssertions;
 using NSubstitute;
+using NUnit.Framework;
 using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTests
 {
-    public class IndexGetWithInvalidIdAndNoCacheAndData : ControllerSpecFor<ThingyController>
+    public class IndexPostWithValidModel : ControllerSpecFor<ThingyController>
     {
-        private Guid _invalidId;
+        private ThingyModel _validModel;
 
         protected override ThingyController Given()
         {
-            _invalidId = Fixture.Create<Guid>();
+            _validModel = Fixture.Create<ThingyModel>();
 
             var controller = Fixture.Create<ThingyController>();
-            controller.GetThingyQuery.Execute(_invalidId).Returns(default(ThingyQueryDto));
-            controller.GetThingyQuery.ExecuteAsync(_invalidId).Returns(Task.FromResult(default(ThingyQueryDto)));
-            controller.GetThingyQuery.ExecuteCached(Guid.Empty).ReturnsForAnyArgs(default(ThingyQueryDto));
+            controller.SaveThingyCommand.ExecuteAsync(null).ReturnsForAnyArgs(Task.FromResult(true));
+
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index(_invalidId).ContinueWith(_ => { Result = _.Result; }).Wait();
+            Subject.Index(_validModel).ContinueWith(_ => { Result = _.Result; }).Wait();
         }
 
 
         [Then]
-        public void ShouldRenderCorrectView()
+        public void ShouldRedirectToCorrectRoute()
         {
-            ((ViewResult) Result).ViewName.Should().Be("");
+            Assert.Fail("Need nice way of getting view result - will try install T4MVC");
+            //((RedirectToRouteResult)Result).RouteValues.ShouldBeEquivalentTo();
         }
 
         [Then]
-        public void ShouldHaveNewThingy()
+        public void ShouldHaveTriedToSaveAsync()
         {
-            ((ThingyModel) ((ViewResult) Result).Model).Id.Should().Be(Guid.Empty);
+            Subject.SaveThingyCommand.ReceivedWithAnyArgs(1).ExecuteAsync(null);
         }
 
         [Then]
-        public void ShouldHaveTriedToGetCachedResults()
+        public void ShouldNotHaveTriedToSaveSync()
         {
-            Subject.GetThingyQuery.Received().ExecuteCached(_invalidId);
-        }
-
-        [Then]
-        public void ShouldHaveTriedToGetAsyncResults()
-        {
-            Subject.GetThingyQuery.Received().ExecuteAsync(_invalidId);
-        }
-
-        [Then]
-        public void ShouldNotHaveTriedToGetSyncResults()
-        {
-            Subject.GetThingyQuery.DidNotReceiveWithAnyArgs().Execute(Guid.Empty);
+            Subject.SaveThingyCommand.DidNotReceiveWithAnyArgs().Execute(null);
         }
     }
 }

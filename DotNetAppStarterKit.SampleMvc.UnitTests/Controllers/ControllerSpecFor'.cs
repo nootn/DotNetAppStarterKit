@@ -16,7 +16,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers
 {
     public abstract class ControllerSpecFor<T> : AutoSpecFor<T> where T : ControllerBase
     {
-        protected ViewResult Result { get; set; }
+        protected ActionResult Result { get; set; }
 
         protected ControllerSpecFor()
         {

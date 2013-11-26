@@ -32,26 +32,27 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
 
             var controller = Fixture.Create<ThingysController>();
             controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(_validResults);
-            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(_validResults.AsEnumerable()));
+            controller.GetAllThingysQuery.ExecuteAsync()
+                .ReturnsForAnyArgs(Task.FromResult(_validResults.AsEnumerable()));
             controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(_validResults);
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index().ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
+            Subject.Index().ContinueWith(_ => { Result = _.Result; }).Wait();
         }
 
         [Then]
         public void ShouldRenderCorrectView()
         {
-            Result.ViewName.Should().Be("");
+            ((ViewResult) Result).ViewName.Should().Be("");
         }
 
         [Then]
         public void ShouldHavePopulatedThingysCollection()
         {
-            ((AllThingysModel)Result.Model).Thingys.Should().ContainInOrder(_validResults);
+            ((AllThingysModel) ((ViewResult) Result).Model).Thingys.Should().ContainInOrder(_validResults);
         }
 
         [Then]

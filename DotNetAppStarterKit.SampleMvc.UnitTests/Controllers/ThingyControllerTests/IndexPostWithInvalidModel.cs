@@ -8,11 +8,8 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using System;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.Controllers;
-using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 using DotNetAppStarterKit.SampleMvc.Models;
 using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
 using FluentAssertions;
@@ -21,24 +18,23 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTests
 {
-    public class IndexGetWithInvalidIdAndNoCacheAndData : ControllerSpecFor<ThingyController>
+    public class IndexPostWithInvalidModel : ControllerSpecFor<ThingyController>
     {
-        private Guid _invalidId;
+        private ThingyModel _invalidModel;
 
         protected override ThingyController Given()
         {
-            _invalidId = Fixture.Create<Guid>();
+            _invalidModel = Fixture.Create<ThingyModel>();
 
             var controller = Fixture.Create<ThingyController>();
-            controller.GetThingyQuery.Execute(_invalidId).Returns(default(ThingyQueryDto));
-            controller.GetThingyQuery.ExecuteAsync(_invalidId).Returns(Task.FromResult(default(ThingyQueryDto)));
-            controller.GetThingyQuery.ExecuteCached(Guid.Empty).ReturnsForAnyArgs(default(ThingyQueryDto));
+            controller.ModelState.AddModelError("id", "dummy error");
+
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index(_invalidId).ContinueWith(_ => { Result = _.Result; }).Wait();
+            Subject.Index(_invalidModel).ContinueWith(_ => { Result = _.Result; }).Wait();
         }
 
 
@@ -49,27 +45,21 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         }
 
         [Then]
-        public void ShouldHaveNewThingy()
+        public void ShouldRetainSameModel()
         {
-            ((ThingyModel) ((ViewResult) Result).Model).Id.Should().Be(Guid.Empty);
+            ((ViewResult) Result).Model.Should().Be(_invalidModel);
         }
 
         [Then]
-        public void ShouldHaveTriedToGetCachedResults()
+        public void ShouldNotHaveTriedToSaveAsync()
         {
-            Subject.GetThingyQuery.Received().ExecuteCached(_invalidId);
+            Subject.SaveThingyCommand.DidNotReceiveWithAnyArgs().ExecuteAsync(null);
         }
 
         [Then]
-        public void ShouldHaveTriedToGetAsyncResults()
+        public void ShouldNotHaveTriedToSaveSync()
         {
-            Subject.GetThingyQuery.Received().ExecuteAsync(_invalidId);
-        }
-
-        [Then]
-        public void ShouldNotHaveTriedToGetSyncResults()
-        {
-            Subject.GetThingyQuery.DidNotReceiveWithAnyArgs().Execute(Guid.Empty);
+            Subject.SaveThingyCommand.DidNotReceiveWithAnyArgs().Execute(null);
         }
     }
 }
