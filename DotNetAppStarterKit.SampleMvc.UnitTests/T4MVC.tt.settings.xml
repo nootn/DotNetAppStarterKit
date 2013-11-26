@@ -3,7 +3,7 @@
   <!--The namespace used by some of T4MVC's generated code-->
   <T4MVCNamespace>T4MVCInTest</T4MVCNamespace>
   <!--The prefix used for things like MVC.Dinners.Name and MVC.Dinners.Delete(Model.DinnerID)-->
-  <HelpersPrefix>MVC</HelpersPrefix>
+  <HelpersPrefix>MVCInTest</HelpersPrefix>
   <!--Namespaces to be referenced by the generated code-->
   <ReferencedNamespaces>
     <!--<Namespace></Namespace>-->

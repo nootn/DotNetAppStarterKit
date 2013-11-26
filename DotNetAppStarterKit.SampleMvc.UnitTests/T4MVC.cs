@@ -19,18 +19,18 @@ using System.Web.Mvc;
 using System.Web.Mvc.Ajax;
 using System.Web.Mvc.Html;
 using System.Web.Routing;
-using T4MVC;
+using T4MVCInTest;
 
 [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
-public static class MVC
+public static class MVCInTest
 {
 }
 
-namespace T4MVC
+namespace T4MVCInTest
 {
 }
 
-namespace T4MVC
+namespace T4MVCInTest
 {
     [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
     public class Dummy
