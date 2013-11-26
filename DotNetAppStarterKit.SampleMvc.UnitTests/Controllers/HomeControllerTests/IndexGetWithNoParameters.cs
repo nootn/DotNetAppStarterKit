@@ -16,7 +16,7 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.HomeControllerTests
 {
-    public class IndexWithNoParameters : ControllerSpecFor<HomeController>
+    public class IndexGetWithNoParameters : ControllerSpecFor<HomeController>
     {
         protected override HomeController Given()
         {

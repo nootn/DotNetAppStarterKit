@@ -9,6 +9,7 @@
 // */
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using DotNetAppStarterKit.SampleMvc.Controllers;
@@ -21,14 +22,18 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerTests
 {
-    public class IndexWithNoParametersAndNoCacheAndNoData : ControllerSpecFor<ThingysController>
+    public class IndexGetWithNoParametersAndCache : ControllerSpecFor<ThingysController>
     {
+        private List<ThingyQueryDto> _validResults;
+
         protected override ThingysController Given()
         {
+            _validResults = Fixture.Create<List<ThingyQueryDto>>();
+
             var controller = Fixture.Create<ThingysController>();
-            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
-            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
-            controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
+            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(_validResults);
+            controller.GetAllThingysQuery.ExecuteAsync().ReturnsForAnyArgs(Task.FromResult(_validResults.AsEnumerable()));
+            controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(_validResults);
             return controller;
         }
 
@@ -44,9 +49,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         }
 
         [Then]
-        public void ShouldHaveEmptyThingysCollection()
+        public void ShouldHavePopulatedThingysCollection()
         {
-            ((AllThingysModel) Result.Model).Thingys.Should().BeEmpty();
+            ((AllThingysModel)Result.Model).Thingys.Should().ContainInOrder(_validResults);
         }
 
         [Then]
@@ -56,9 +61,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         }
 
         [Then]
-        public void ShouldHaveTriedToGetAsyncResults()
+        public void ShouldNotHaveTriedToGetAsyncResults()
         {
-            Subject.GetAllThingysQuery.ReceivedWithAnyArgs(1).ExecuteAsync();
+            Subject.GetAllThingysQuery.DidNotReceiveWithAnyArgs().ExecuteAsync();
         }
 
         [Then]

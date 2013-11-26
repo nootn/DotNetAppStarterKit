@@ -21,7 +21,7 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTests
 {
-    public class IndexWithNoIdAndNoCacheAndNoData : ControllerSpecFor<ThingyController>
+    public class IndexGetWithNoIdAndNoCacheAndNoData : ControllerSpecFor<ThingyController>
     {
         protected override ThingyController Given()
         {

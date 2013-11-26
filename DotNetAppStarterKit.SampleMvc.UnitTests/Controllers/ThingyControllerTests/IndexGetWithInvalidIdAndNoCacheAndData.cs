@@ -21,24 +21,24 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTests
 {
-    public class IndexWithValidIdAndNoCacheAndData : ControllerSpecFor<ThingyController>
+    public class IndexGetWithInvalidIdAndNoCacheAndData : ControllerSpecFor<ThingyController>
     {
-        private ThingyQueryDto _validResult;
+        private Guid _invalidId;
 
         protected override ThingyController Given()
         {
-            _validResult = Fixture.Create<ThingyQueryDto>();
+            _invalidId = Fixture.Create<Guid>();
 
             var controller = Fixture.Create<ThingyController>();
-            controller.GetThingyQuery.Execute(_validResult.Id).Returns(_validResult);
-            controller.GetThingyQuery.ExecuteAsync(_validResult.Id).Returns(Task.FromResult(_validResult));
+            controller.GetThingyQuery.Execute(_invalidId).Returns(default(ThingyQueryDto));
+            controller.GetThingyQuery.ExecuteAsync(_invalidId).Returns(Task.FromResult(default(ThingyQueryDto)));
             controller.GetThingyQuery.ExecuteCached(Guid.Empty).ReturnsForAnyArgs(default(ThingyQueryDto));
             return controller;
         }
 
         protected override void When()
         {
-            Subject.Index(_validResult.Id).ContinueWith(_ => { Result = (ViewResult)_.Result; }).Wait();
+            Subject.Index(_invalidId).ContinueWith(_ => { Result = (ViewResult) _.Result; }).Wait();
         }
 
 
@@ -49,21 +49,21 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         }
 
         [Then]
-        public void ShouldReturnExistingThingy()
+        public void ShouldHaveNewThingy()
         {
-            ((ThingyModel) Result.Model).Id.Should().Be(_validResult.Id);
+            ((ThingyModel) Result.Model).Id.Should().Be(Guid.Empty);
         }
 
         [Then]
         public void ShouldHaveTriedToGetCachedResults()
         {
-            Subject.GetThingyQuery.Received().ExecuteCached(_validResult.Id);
+            Subject.GetThingyQuery.Received().ExecuteCached(_invalidId);
         }
 
         [Then]
         public void ShouldHaveTriedToGetAsyncResults()
         {
-            Subject.GetThingyQuery.Received().ExecuteAsync(_validResult.Id);
+            Subject.GetThingyQuery.Received().ExecuteAsync(_invalidId);
         }
 
         [Then]

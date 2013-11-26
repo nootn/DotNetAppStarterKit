@@ -22,7 +22,7 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerTests
 {
-    public class IndexWithNoParametersAndNoCacheAndData : ControllerSpecFor<ThingysController>
+    public class IndexGetWithNoParametersAndNoCacheAndData : ControllerSpecFor<ThingysController>
     {
         private List<ThingyQueryDto> _validResults;
 

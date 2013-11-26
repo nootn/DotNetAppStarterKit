@@ -87,13 +87,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\ControllerSpecFor%27.cs" />
-    <Compile Include="Controllers\HomeControllerTests\IndexWithNoParameters.cs" />
-    <Compile Include="Controllers\ThingyControllerTests\IndexWithValidIdAndNoCacheAndData.cs" />
-    <Compile Include="Controllers\ThingyControllerTests\IndexWithInvalidIdAndNoCacheAndData.cs" />
-    <Compile Include="Controllers\ThingyControllerTests\IndexWithNoIdAndNoCacheAndNoData.cs" />
-    <Compile Include="Controllers\ThingysControllerTests\IndexWithNoParametersAndCache.cs" />
-    <Compile Include="Controllers\ThingysControllerTests\IndexWithNoParametersAndNoCacheAndData.cs" />
-    <Compile Include="Controllers\ThingysControllerTests\IndexWithNoParametersAndNoCacheAndNoData.cs" />
+    <Compile Include="Controllers\HomeControllerTests\IndexGetWithNoParameters.cs" />
+    <Compile Include="Controllers\ThingyControllerTests\IndexGetWithValidIdAndNoCacheAndData.cs" />
+    <Compile Include="Controllers\ThingyControllerTests\IndexGetWithInvalidIdAndNoCacheAndData.cs" />
+    <Compile Include="Controllers\ThingyControllerTests\IndexGetWithNoIdAndNoCacheAndNoData.cs" />
+    <Compile Include="Controllers\ThingysControllerTests\IndexGetWithNoParametersAndCache.cs" />
+    <Compile Include="Controllers\ThingysControllerTests\IndexGetWithNoParametersAndNoCacheAndData.cs" />
+    <Compile Include="Controllers\ThingysControllerTests\IndexGetWithNoParametersAndNoCacheAndNoData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
