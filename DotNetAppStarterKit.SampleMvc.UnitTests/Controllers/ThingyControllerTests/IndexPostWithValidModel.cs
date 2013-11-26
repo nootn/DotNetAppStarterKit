@@ -43,8 +43,8 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         [Then]
         public void ShouldRedirectToCorrectRoute()
         {
-            Assert.Fail("Need nice way of getting view result - will try install T4MVC");
-            //((RedirectToRouteResult)Result).RouteValues.ShouldBeEquivalentTo();
+            var res = MVC.Home.Index().GetT4MVCResult();
+            ((RedirectToRouteResult)Result).RouteValues.ShouldBeEquivalentTo(res.RouteValueDictionary);
         }
 
         [Then]
