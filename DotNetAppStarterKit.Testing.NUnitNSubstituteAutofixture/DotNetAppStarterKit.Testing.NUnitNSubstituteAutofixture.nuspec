@@ -3,9 +3,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture</id>
-    <version>1.0.0.0</version>
+    <version>1.0.1.0</version>
     <releaseNotes>
-      Initial version with basic classes.  See examples of usage in project DotNetAppStarterKit.SampleMvc.UnitTests
+      Adds SpecFor with no "Subject" which can be used for testing static methods
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
