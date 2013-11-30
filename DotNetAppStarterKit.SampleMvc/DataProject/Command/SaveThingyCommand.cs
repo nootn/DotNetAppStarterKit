@@ -28,7 +28,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
         public readonly IDummyDataContext Context;
         public readonly IMapper<ThingyCommandDto, Thingy> Mapper;
         public readonly IEventPublisher<ThingyChangedEvent> PublisherThingyChanged;
-        private readonly ILogWithCallerInfo<SaveThingyCommand> _log;
+        public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
 
         public SaveThingyCommand(IDummyDataContext context, IMapper<ThingyCommandDto, Thingy> mapper,
             IEventPublisher<ThingyChangedEvent> publisherThingyChanged,
@@ -37,7 +37,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             Context = context;
             Mapper = mapper;
             PublisherThingyChanged = publisherThingyChanged;
-            _log = log;
+            Log = log;
         }
 
         public override void Execute(ThingyCommandDto model)
@@ -56,19 +56,12 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
                 item = Context.CreateAndAddThingy();
 
                 action = Enums.ChangeAction.Added;
-                _log.InformationWithCallerInfo(
-                    () => string.Format("[ThreadId: {1}] Did not exist, will add with new id '{0}'", model.Id,
-                        Thread.CurrentThread.ManagedThreadId));
+                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Did not exist, will add with new id '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             else
             {
                 action = Enums.ChangeAction.Updated;
-                _log.InformationWithCallerInfo(
-                    () =>
-                        string.Format(
-                            "[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed",
-                            model.Id,
-                            Thread.CurrentThread.ManagedThreadId));
+                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             Mapper.Map(model, item);
 
@@ -76,16 +69,12 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 
             if (res > 0)
             {
-                _log.InformationWithCallerInfo(
-                    () => string.Format("[ThreadId: {1}] Changes were saved on '{0}'", model.Id,
-                        Thread.CurrentThread.ManagedThreadId));
+                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             else
             {
                 action = Enums.ChangeAction.None;
-                _log.InformationWithCallerInfo(
-                    () => string.Format("[ThreadId: {1}] No changes were saved on '{0}'", model.Id,
-                        Thread.CurrentThread.ManagedThreadId));
+                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] No changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
 
             //Notify others that something has happened

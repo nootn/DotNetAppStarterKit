@@ -9,6 +9,7 @@
 // */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command;
@@ -22,20 +23,28 @@ using Ploeh.AutoFixture;
 
 namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingyCommandTests
 {
-    internal class ExecuteWithNewModel : SaveThingyCommandSpecFor
+    internal class ExecuteWithExistingModelAndNoChanges : SaveThingyCommandSpecFor
     {
         private ThingyCommandDto _model;
         private Guid _originalModelId;
+        private Thingy _existingEntity;
 
         protected override SaveThingyCommand Given()
         {
             _model = Fixture.Create<ThingyCommandDto>();
-            _originalModelId = Guid.Empty;
+            _originalModelId = Fixture.Create<Guid>();
             _model.Id = _originalModelId;
+            _existingEntity = Fixture.Create<Thingy>();
+            _existingEntity.Id = _originalModelId;
 
             var cmd = Fixture.Create<SaveThingyCommand>();
-            cmd.Context.CreateAndAddThingy().ReturnsForAnyArgs(Fixture.Create<Thingy>());
-            cmd.Context.SaveChanges().ReturnsForAnyArgs(1);
+
+            //IQueryable is not mocked well, so instead use a List
+            var existingThingys = Fixture.Create<List<Thingy>>();
+            existingThingys.Add(_existingEntity);
+            cmd.Context.Thingys = existingThingys.AsQueryable();
+
+            cmd.Context.SaveChanges().ReturnsForAnyArgs(0);
 
             return cmd;
         }
@@ -46,15 +55,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         }
 
         [Then]
-        public void ShouldHaveNewModelId()
+        public void ShouldHaveExistingModelId()
         {
-            _model.Id.Should().NotBe(_originalModelId);
-        }
-
-        [Then]
-        public void ShouldHaveCreatedAndAddedAThingy()
-        {
-            Subject.Context.ReceivedWithAnyArgs(1).CreateAndAddThingy();
+            _model.Id.Should().Be(_originalModelId);
         }
 
         [Then]
@@ -70,10 +73,10 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         }
 
         [Then]
-        public void ShouldHavePublishedEventIndicatingAdd()
+        public void ShouldHavePublishedEventIndicatingNoAction()
         {
             ((ThingyChangedEvent) Subject.PublisherThingyChanged.ReceivedCalls().First().GetArguments().First()).Action
-                .Should().Be(Enums.ChangeAction.Added);
+                .Should().Be(Enums.ChangeAction.None);
         }
     }
 }

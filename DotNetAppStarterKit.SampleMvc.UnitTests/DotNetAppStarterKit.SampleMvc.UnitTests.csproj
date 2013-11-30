@@ -108,6 +108,8 @@
     <Compile Include="Controllers\ThingysControllerTests\IndexGetWithNoParametersAndNoCacheAndData.cs" />
     <Compile Include="Controllers\ThingysControllerTests\IndexGetWithNoParametersAndNoCacheAndNoData.cs" />
     <Compile Include="DataProject\Command\SaveThingyCommandSpecFor.cs" />
+    <Compile Include="DataProject\Command\SaveThingyCommandTests\ExecuteWithExistingModelAndNoChanges.cs" />
+    <Compile Include="DataProject\Command\SaveThingyCommandTests\ExecuteWithExistingModelAndChanges.cs" />
     <Compile Include="DataProject\Command\SaveThingyCommandTests\ExecuteWithNewModel.cs" />
     <Compile Include="DataProject\Command\SaveThingyCommandTests\ExecuteWithNullModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
