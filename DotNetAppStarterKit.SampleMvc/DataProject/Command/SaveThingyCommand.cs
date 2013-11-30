@@ -15,7 +15,6 @@ using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.Core.Logging;
 using DotNetAppStarterKit.Core.Mapping;
-using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
@@ -27,9 +26,9 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
     public class SaveThingyCommand : CommandBase<ThingyCommandDto>, ISaveThingyCommand
     {
         public readonly IDummyDataContext Context;
+        public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
         public readonly IMapper<ThingyCommandDto, Thingy> Mapper;
         public readonly IEventPublisher<ThingyChangedEvent> PublisherThingyChanged;
-        public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
 
         public SaveThingyCommand(IDummyDataContext context, IMapper<ThingyCommandDto, Thingy> mapper,
             IEventPublisher<ThingyChangedEvent> publisherThingyChanged,
@@ -62,7 +61,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             else
             {
                 action = Enums.ChangeAction.Updated;
-                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id, Thread.CurrentThread.ManagedThreadId));
+                Log.InformationWithCallerInfo(() =>string.Format("[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             Mapper.Map(model, item);
 

@@ -28,6 +28,7 @@ using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.Application.Interceptors;
+using DotNetAppStarterKit.SampleMvc.Application.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.Web.Caching;
 using DotNetAppStarterKit.Web.Logging;
@@ -58,11 +59,11 @@ namespace DotNetAppStarterKit.SampleMvc
                 Database.SetInitializer(new DropCreateDatabaseIfModelChanges<DummyDataContext>());
             }
 
-            //Ensure all our Mappers are OK
-            MappingSetup.AssertConfigurationIsValidInAllMappers();
-
             //IOC Setup - example using AutoFac
             ConfigureIoc();
+
+            //Ensure all our Mappers are OK
+            MappingSetup.AssertConfigurationIsValidInAllMappers(new MvcInstanceCreator());
         }
 
         private static void ConfigureIoc()
@@ -121,12 +122,6 @@ namespace DotNetAppStarterKit.SampleMvc
                     _.InstancePerHttpRequest()
                      .EnableInterfaceInterceptors()
                      .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
-            RegisterGenericTypes(builder, webAssembly, typeof(IMapper<,>), true)
-                .ForEach(
-                    _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
             builder.RegisterGeneric(typeof (EventPublisher<>)).AsImplementedInterfaces().InstancePerHttpRequest();
             builder.RegisterGeneric(typeof (EventSubscribersProvider<>))
                    .AsImplementedInterfaces()
@@ -137,6 +132,22 @@ namespace DotNetAppStarterKit.SampleMvc
                     _.InstancePerHttpRequest()
                      .EnableInterfaceInterceptors()
                      .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+
+            //The mappers are interesting..
+            //This one is for the actual usages of the mappers
+            RegisterGenericTypes(builder, webAssembly, typeof(IMapper<,>), true)
+                .ForEach(
+                    _ =>
+                    _.InstancePerHttpRequest()
+                     .EnableInterfaceInterceptors()
+                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
+
+            //This one is needed to get an instance of each mapper in the "MvcInstanceCreator"
+            RegisterGenericTypes(builder, webAssembly, typeof(MapperBase<,>), false)
+                .ForEach(
+                    _ =>
+                    _.InstancePerHttpRequest());
+
 
             //Build and set resolver
             try

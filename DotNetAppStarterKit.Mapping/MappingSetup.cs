@@ -24,6 +24,9 @@ namespace DotNetAppStarterKit.Mapping
         ///     If you are using an IOC container, pass in a class that uses your IOC container to create
         ///     the instance.  If you don't pass one, it will create instances of mappers using reflection.  This may work unless
         ///     you have mappers that do not have a default constructor with no parameters.
+        /// 
+        ///     For example, in an MVC app, check out DotNetAppStarterKit.SampleMvc.Application.Mapping at:
+        ///     https://github.com/nootn/DotNetAppStarterKit/blob/master/DotNetAppStarterKit.SampleMvc/Application/Mapping/MvcInstanceCreator.cs
         /// </param>
         public static void AssertConfigurationIsValidInAllMappers(IInstanceCreator instanceCreator = null)
         {

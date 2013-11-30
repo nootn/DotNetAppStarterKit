@@ -10,6 +10,7 @@
 
 using AutoMapper;
 using DotNetAppStarterKit.Mapping;
+using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
 namespace DotNetAppStarterKit.SampleMvc.Models.Mappers

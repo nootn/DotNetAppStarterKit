@@ -9,37 +9,17 @@
 // */
 
 using System;
-using DotNetAppStarterKit.Mapping;
-using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
-using FluentAssertions;
+using System.Web.Mvc;
+using DotNetAppStarterKit.Core.Mapping;
 
-namespace DotNetAppStarterKit.SampleMvc.UnitTests.MappingGeneral
+namespace DotNetAppStarterKit.SampleMvc.Application.Mapping
 {
-    public class AssertConfigurationIsValidInAllMappers : SpecFor
+    public class MvcInstanceCreator : IInstanceCreator
     {
-        private Exception _unexpectedException;
-
-        protected override void Given()
+        public dynamic CreateInstance(Type type)
         {
-            //Given the world is at peace... 
-        }
-
-        protected override void When()
-        {
-            try
-            {
-                MappingSetup.AssertConfigurationIsValidInAllMappers();
-            }
-            catch (Exception ex)
-            {
-                _unexpectedException = ex;
-            }
-        }
-
-        [Then]
-        public void ShouldNotThrowException()
-        {
-            _unexpectedException.Should().BeNull();
+            //NOTE: you may need to register things to resolve "As Self" for this to work when it's called by AssertConfigurationIsValidInAllMappers
+            return DependencyResolver.Current.GetService(type);
         }
     }
 }
