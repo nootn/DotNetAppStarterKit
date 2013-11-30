@@ -41,6 +41,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 
         public override void Execute(ThingyCommandDto model)
         {
+            if (model == null) throw new ArgumentNullException("model");
             Enums.ChangeAction action;
             var item = model.Id == Guid.Empty
                            ? null
