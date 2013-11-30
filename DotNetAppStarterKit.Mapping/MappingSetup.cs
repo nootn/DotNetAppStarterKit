@@ -11,26 +11,41 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DotNetAppStarterKit.Core.Mapping;
 
 namespace DotNetAppStarterKit.Mapping
 {
     public static class MappingSetup
     {
-        public static void AssertConfigurationIsValidInAllMappers()
+        /// <summary>
+        /// Verifies all the classes that inherit MapperBase have valid AutoMapper configuration.  To do this it needs to create an instance of each.
+        /// </summary>
+        /// <param name="instanceCreator">
+        ///     If you are using an IOC container, pass in a class that uses your IOC container to create
+        ///     the instance.  If you don't pass one, it will create instances of mappers using reflection.  This may work unless
+        ///     you have mappers that do not have a default constructor with no parameters.
+        /// </param>
+        public static void AssertConfigurationIsValidInAllMappers(IInstanceCreator instanceCreator = null)
         {
+            if (instanceCreator == null)
+            {
+                //Select a default instance creator if none supplied
+                instanceCreator = new ReflectionInstanceCreator();
+            }
+
             var exceptions = new List<Exception>();
             foreach (var currAssembly in AppDomain.CurrentDomain.GetAssemblies())
             {
                 var mapperTypes = from x in currAssembly.GetTypes()
-                                  let y = x.BaseType
-                                  where !x.IsAbstract && !x.IsInterface &&
-                                        y != null && y.IsGenericType &&
-                                        y.GetGenericTypeDefinition() == typeof (MapperBase<,>)
-                                  select x;
+                    let y = x.BaseType
+                    where !x.IsAbstract && !x.IsInterface &&
+                          y != null && y.IsGenericType &&
+                          y.GetGenericTypeDefinition() == typeof (MapperBase<,>)
+                    select x;
 
                 foreach (var currType in mapperTypes)
                 {
-                    dynamic inst = Activator.CreateInstance(currType);
+                    dynamic inst = instanceCreator.CreateInstance(currType);
                     try
                     {
                         inst.EnsureMapExists();

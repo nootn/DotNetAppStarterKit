@@ -12,6 +12,7 @@ using System;
 using System.Linq;
 using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;

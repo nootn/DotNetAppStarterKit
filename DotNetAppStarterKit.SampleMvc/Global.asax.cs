@@ -24,6 +24,7 @@ using Autofac.Integration.Mvc;
 using AutofacContrib.DynamicProxy;
 using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.Application.Interceptors;

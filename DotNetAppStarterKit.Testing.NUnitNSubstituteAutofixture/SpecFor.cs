@@ -8,10 +8,26 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-namespace DotNetAppStarterKit.Mapping
+using NUnit.Framework;
+
+namespace DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture
 {
-    public interface IMapper<in TSource, TDestination>
+    /// <summary>
+    ///     Specification for allows you to define tests where the "Given" and "Wnen" is run, then multiple "Then" methods can
+    ///     be called individually to perform individual asserts
+    /// </summary>
+    [TestFixture]
+    public abstract class SpecFor
     {
-        TDestination Map(TSource originalItem, TDestination newItem);
+        protected abstract void Given();
+
+        protected abstract void When();
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            Given();
+            When();
+        }
     }
 }

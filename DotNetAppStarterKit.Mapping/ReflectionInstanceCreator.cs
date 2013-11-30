@@ -8,36 +8,16 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using AutoMapper;
+using System;
 using DotNetAppStarterKit.Core.Mapping;
 
 namespace DotNetAppStarterKit.Mapping
 {
-    public abstract class MapperBase<TSource, TDestination> : IMapper<TSource, TDestination>
+    public class ReflectionInstanceCreator : IInstanceCreator
     {
-        public void EnsureMapExists()
+        public dynamic CreateInstance(Type type)
         {
-            if (Mapper.FindTypeMapFor<TSource, TDestination>() == null)
-            {
-                var exp = Mapper.CreateMap<TSource, TDestination>();
-                CustomizeMappingExpression(exp);
-
-                var createdMap = Mapper.FindTypeMapFor<TSource, TDestination>();
-
-                Mapper.AssertConfigurationIsValid(createdMap);
-            }
-        }
-
-        public abstract void CustomizeMappingExpression(IMappingExpression<TSource, TDestination> expression);
-
-        public abstract void SetValuesAfterAutomaticMapping(TSource sourceItem, ref TDestination mappedItem);
-
-        public TDestination Map(TSource originalItem, TDestination newItem)
-        {
-            EnsureMapExists();
-            var mappedItem = Mapper.Map(originalItem, newItem);
-            SetValuesAfterAutomaticMapping(originalItem, ref mappedItem);
-            return mappedItem;
+            return Activator.CreateInstance(type);
         }
     }
 }

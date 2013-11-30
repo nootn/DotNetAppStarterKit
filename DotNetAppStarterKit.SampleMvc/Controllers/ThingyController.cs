@@ -11,7 +11,7 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using DotNetAppStarterKit.Mapping;
+using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;

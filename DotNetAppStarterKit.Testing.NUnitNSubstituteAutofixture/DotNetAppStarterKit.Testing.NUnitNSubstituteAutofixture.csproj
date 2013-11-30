@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="AutoSpecFor%27.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SpecFor.cs" />
     <Compile Include="SpecFor%27.cs" />
     <Compile Include="ThenAttribute.cs" />
   </ItemGroup>

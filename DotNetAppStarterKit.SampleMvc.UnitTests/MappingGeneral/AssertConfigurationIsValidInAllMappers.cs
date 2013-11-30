@@ -8,36 +8,38 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using AutoMapper;
-using DotNetAppStarterKit.Core.Mapping;
+using System;
+using DotNetAppStarterKit.Mapping;
+using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
+using FluentAssertions;
 
-namespace DotNetAppStarterKit.Mapping
+namespace DotNetAppStarterKit.SampleMvc.UnitTests.MappingGeneral
 {
-    public abstract class MapperBase<TSource, TDestination> : IMapper<TSource, TDestination>
+    public class AssertConfigurationIsValidInAllMappers : SpecFor
     {
-        public void EnsureMapExists()
+        private Exception _unexpectedException;
+
+        protected override void Given()
         {
-            if (Mapper.FindTypeMapFor<TSource, TDestination>() == null)
+            //Given the world is at peace... 
+        }
+
+        protected override void When()
+        {
+            try
             {
-                var exp = Mapper.CreateMap<TSource, TDestination>();
-                CustomizeMappingExpression(exp);
-
-                var createdMap = Mapper.FindTypeMapFor<TSource, TDestination>();
-
-                Mapper.AssertConfigurationIsValid(createdMap);
+                MappingSetup.AssertConfigurationIsValidInAllMappers();
+            }
+            catch (Exception ex)
+            {
+                _unexpectedException = ex;
             }
         }
 
-        public abstract void CustomizeMappingExpression(IMappingExpression<TSource, TDestination> expression);
-
-        public abstract void SetValuesAfterAutomaticMapping(TSource sourceItem, ref TDestination mappedItem);
-
-        public TDestination Map(TSource originalItem, TDestination newItem)
+        [Then]
+        public void ShouldNotThrowException()
         {
-            EnsureMapExists();
-            var mappedItem = Mapper.Map(originalItem, newItem);
-            SetValuesAfterAutomaticMapping(originalItem, ref mappedItem);
-            return mappedItem;
+            _unexpectedException.Should().BeNull();
         }
     }
 }

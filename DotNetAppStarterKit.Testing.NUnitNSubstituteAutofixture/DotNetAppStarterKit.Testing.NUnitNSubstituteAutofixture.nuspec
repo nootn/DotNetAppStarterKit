@@ -18,6 +18,7 @@
     <dependencies>
       <dependency id="AutoFixture.AutoNSubstitute" />
       <dependency id="NUnit" />
+      <dependency id="DotNetAppStarterKit.Core" version="1.0.7.0" />
     </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />

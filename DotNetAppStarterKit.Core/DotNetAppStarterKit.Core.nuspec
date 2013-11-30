@@ -2,10 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.6.0</version>
+    <version>1.0.7.0</version>
     <releaseNotes>
-      * Enhances logging functionality
-      * POTENTIAL BREAKING CHANGE: If using ILogWithCallerInfo you now need to specifically call particular methods to get the caller info
+      * Adds Mapping interfaces IMapper and IInstanceCreator
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>

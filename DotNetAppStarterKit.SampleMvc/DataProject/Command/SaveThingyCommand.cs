@@ -14,6 +14,7 @@ using System.Threading;
 using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.Core.Logging;
+using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
