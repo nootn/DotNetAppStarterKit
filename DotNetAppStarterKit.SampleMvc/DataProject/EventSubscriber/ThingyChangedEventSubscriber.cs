@@ -18,20 +18,20 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.EventSubscriber
 {
     public class ThingyChangedEventSubscriber : IEventSubscriber<ThingyChangedEvent>
     {
-        private readonly ICacheProvider<IEnumerable<ThingyQueryDto>> _allThingysCacheProvider;
+        private readonly ICacheProvider<IEnumerable<ThingyQueryDto>> _ThingysCacheProvider;
         private readonly ICacheProvider<ThingyQueryDto> _thingyCacheProvider;
 
-        public ThingyChangedEventSubscriber(ICacheProvider<IEnumerable<ThingyQueryDto>> allThingysCacheProvider,
+        public ThingyChangedEventSubscriber(ICacheProvider<IEnumerable<ThingyQueryDto>> ThingysCacheProvider,
                                             ICacheProvider<ThingyQueryDto> thingyCacheProvider)
         {
-            _allThingysCacheProvider = allThingysCacheProvider;
+            _ThingysCacheProvider = ThingysCacheProvider;
             _thingyCacheProvider = thingyCacheProvider;
         }
 
         public void Handle(ThingyChangedEvent data)
         {
             _thingyCacheProvider.RemoveCachedItem(data.ThingyId.ToString());
-            _allThingysCacheProvider.RemoveCachedItem("");
+            _ThingysCacheProvider.RemoveCachedItem("");
         }
     }
 }

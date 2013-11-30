@@ -13,10 +13,11 @@ using System.Linq;
 using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.Core.Query;
+using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
+using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 using DotNetAppStarterKit.SampleMvc.DataProject.Event;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
-using DotNetAppStarterKit.SampleMvc.DataProject.Query.Mappers;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
@@ -24,13 +25,13 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
     public class GetThingyQuery : CachedQueryBase<Guid, ThingyQueryDto>, IGetThingyQuery
     {
         private readonly ICacheProvider<ThingyQueryDto> _cacheProvider;
-        private readonly IEventPublisher<ThingyRetrievedEvent> _publisher;
         private readonly IDummyDataContext _context;
-        private readonly ThingyToThingyQueryDtoMapper _mapper;
+        private readonly IMapper<Thingy, ThingyQueryDto> _mapper;
+        private readonly IEventPublisher<ThingyRetrievedEvent> _publisher;
 
-        public GetThingyQuery(IDummyDataContext context, ThingyToThingyQueryDtoMapper mapper,
-                              ICacheProvider<ThingyQueryDto> cacheProvider,
-                              IEventPublisher<ThingyRetrievedEvent> publisher)
+        public GetThingyQuery(IDummyDataContext context, IMapper<Thingy, ThingyQueryDto> mapper,
+            ICacheProvider<ThingyQueryDto> cacheProvider,
+            IEventPublisher<ThingyRetrievedEvent> publisher)
         {
             _context = context;
             _mapper = mapper;
@@ -49,7 +50,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
             if (entity != null)
             {
                 var item = _mapper.Map(entity, new ThingyQueryDto());
-                _publisher.Publish(new ThingyRetrievedEvent { RetrievedItem = item });
+                _publisher.Publish(new ThingyRetrievedEvent {RetrievedItem = item});
                 return item;
             }
             return null;

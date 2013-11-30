@@ -9,6 +9,7 @@
 // */
 
 using System.Data.Entity;
+using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
@@ -16,5 +17,18 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
     public class DummyDataContext : DbContext, IDummyDataContext
     {
         public DbSet<Thingy> Thingys { get; set; }
+
+        public Thingy CreateAndAddThingy()
+        {
+            var item = Thingys.Create();
+            Thingys.Add(item);
+            return item;
+        }
+
+        IQueryable<Thingy> IDummyDataContext.Thingys
+        {
+            get { return Thingys; }
+            set { Thingys = value as DbSet<Thingy>; }
+        }
     }
 }

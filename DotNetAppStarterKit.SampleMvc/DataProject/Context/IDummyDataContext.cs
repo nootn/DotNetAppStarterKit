@@ -9,6 +9,7 @@
 // */
 
 using System.Data.Entity;
+using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
@@ -17,6 +18,8 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
     {
         int SaveChanges();
 
-        DbSet<Thingy> Thingys { get; set; }
+        IQueryable<Thingy> Thingys { get; set; }
+
+        Thingy CreateAndAddThingy();
     }
 }

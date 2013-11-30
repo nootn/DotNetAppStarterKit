@@ -21,9 +21,9 @@ namespace DotNetAppStarterKit.SampleMvc.Controllers
     {
         public readonly IGetAllThingysQuery GetAllThingysQuery;
 
-        public ThingysController(IGetAllThingysQuery getAllThingysQuery)
+        public ThingysController(IGetAllThingysQuery getThingysQuery)
         {
-            GetAllThingysQuery = getAllThingysQuery;
+            GetAllThingysQuery = getThingysQuery;
         }
 
         public virtual async Task<ActionResult> Index()

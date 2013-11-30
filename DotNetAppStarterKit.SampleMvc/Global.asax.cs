@@ -120,10 +120,12 @@ namespace DotNetAppStarterKit.SampleMvc
                     _.InstancePerHttpRequest()
                      .EnableInterfaceInterceptors()
                      .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
-            RegisterGenericTypes(builder, webAssembly, typeof (MapperBase<,>), false)
+            RegisterGenericTypes(builder, webAssembly, typeof(IMapper<,>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest());
+                    _.InstancePerHttpRequest()
+                     .EnableInterfaceInterceptors()
+                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
             builder.RegisterGeneric(typeof (EventPublisher<>)).AsImplementedInterfaces().InstancePerHttpRequest();
             builder.RegisterGeneric(typeof (EventSubscribersProvider<>))
                    .AsImplementedInterfaces()
