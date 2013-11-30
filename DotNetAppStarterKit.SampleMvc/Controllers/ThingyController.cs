@@ -11,20 +11,22 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface;
+using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 using DotNetAppStarterKit.SampleMvc.Models;
-using DotNetAppStarterKit.SampleMvc.Models.Mappers;
 
 namespace DotNetAppStarterKit.SampleMvc.Controllers
 {
     public partial class ThingyController : Controller
     {
-        public readonly ThingyQueryDtoToThingyModelMapper DtoToModelMapper;
-        public readonly ISaveThingyCommand SaveThingyCommand;
+        public readonly IMapper<ThingyQueryDto, ThingyModel> DtoToModelMapper;
         public readonly IGetThingyQuery GetThingyQuery;
+        public readonly ISaveThingyCommand SaveThingyCommand;
 
-        public ThingyController(IGetThingyQuery getThingyQuery, ThingyQueryDtoToThingyModelMapper dtoToModelMapper, ISaveThingyCommand saveThingyCommand)
+        public ThingyController(IGetThingyQuery getThingyQuery, IMapper<ThingyQueryDto, ThingyModel> dtoToModelMapper,
+            ISaveThingyCommand saveThingyCommand)
         {
             GetThingyQuery = getThingyQuery;
             DtoToModelMapper = dtoToModelMapper;
