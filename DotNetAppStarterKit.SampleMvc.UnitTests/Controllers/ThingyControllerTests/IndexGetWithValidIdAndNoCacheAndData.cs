@@ -11,9 +11,11 @@
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.SampleMvc.Controllers;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 using DotNetAppStarterKit.SampleMvc.Models;
+using DotNetAppStarterKit.SampleMvc.Models.Mappers;
 using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
 using FluentAssertions;
 using NSubstitute;
@@ -28,6 +30,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         protected override ThingyController Given()
         {
             _validResult = Fixture.Create<ThingyQueryDto>();
+            Fixture.Register(() => new ThingyQueryDtoToThingyModelMapper() as IMapper<ThingyQueryDto, ThingyModel>);
 
             var controller = Fixture.Create<ThingyController>();
             controller.GetThingyQuery.Execute(_validResult.Id).Returns(_validResult);

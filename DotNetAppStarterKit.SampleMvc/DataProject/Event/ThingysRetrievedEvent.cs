@@ -9,12 +9,18 @@
 // */
 
 using System.Collections.Generic;
+using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Event
 {
-    public class ThingysRetrievedEvent
+    public class ThingysRetrievedEvent : IDomainEvent
     {
-        public IEnumerable<ThingyQueryDto> RetrievedItems { get; set; }
+        public ThingysRetrievedEvent(IEnumerable<ThingyQueryDto> retrievedItems)
+        {
+            RetrievedItems = retrievedItems;
+        }
+
+        public IEnumerable<ThingyQueryDto> RetrievedItems { get; private set; }
     }
 }

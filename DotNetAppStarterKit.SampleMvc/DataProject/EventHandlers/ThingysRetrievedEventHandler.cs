@@ -8,25 +8,26 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
+using System.Collections.Generic;
+using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.EventBroker;
-using DotNetAppStarterKit.SampleMvc.DataProject.Command;
-using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
-using NSubstitute;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoNSubstitute;
+using DotNetAppStarterKit.SampleMvc.DataProject.Event;
+using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
-namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command
+namespace DotNetAppStarterKit.SampleMvc.DataProject.EventHandlers
 {
-    public abstract class SaveThingyCommandSpecFor : AutoSpecFor<SaveThingyCommand>
+    public class ThingysRetrievedEventHandler : IHandle<ThingysRetrievedEvent>
     {
-        protected IEventBroker EventBroker { get; private set; }
+        private readonly ICacheProvider<IEnumerable<ThingyQueryDto>> _cacheProvider;
 
-        protected SaveThingyCommandSpecFor()
+        public ThingysRetrievedEventHandler(ICacheProvider<IEnumerable<ThingyQueryDto>> cacheProvider)
         {
-            Fixture.Customize(new AutoNSubstituteCustomization());
-            EventBroker = Substitute.For<IEventBroker>();
+            _cacheProvider = cacheProvider;
+        }
 
-            DomainEvents.SetEventBroker(EventBroker);
+        public void Handle(ThingysRetrievedEvent data)
+        {
+            _cacheProvider.AddCachedItem(data.RetrievedItems, "", 10);
         }
     }
 }

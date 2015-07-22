@@ -13,6 +13,7 @@ using System.Linq;
 
 namespace DotNetAppStarterKit.Core.Event
 {
+    [Obsolete("This class is obsolete, please use DomainEvents.")]
     public class EventPublisher<T> : IEventPublisher<T>
     {
         private readonly IEventSubscribersProvider<T> _subscriptionService;

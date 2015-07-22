@@ -11,10 +11,9 @@
 using System;
 using System.Linq;
 using DotNetAppStarterKit.Core.Caching;
-using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
-using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 using DotNetAppStarterKit.SampleMvc.DataProject.Event;
@@ -28,16 +27,13 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
         private readonly ICacheProvider<ThingyQueryDto> _cacheProvider;
         private readonly IDummyDataContext _context;
         private readonly IMapper<Thingy, ThingyQueryDto> _mapper;
-        private readonly IEventPublisher<ThingyRetrievedEvent> _publisher;
 
         public GetThingyQuery(IDummyDataContext context, IMapper<Thingy, ThingyQueryDto> mapper,
-            ICacheProvider<ThingyQueryDto> cacheProvider,
-            IEventPublisher<ThingyRetrievedEvent> publisher)
+            ICacheProvider<ThingyQueryDto> cacheProvider)
         {
             _context = context;
             _mapper = mapper;
             _cacheProvider = cacheProvider;
-            _publisher = publisher;
         }
 
         public override ThingyQueryDto ExecuteCached(Guid model)
@@ -51,7 +47,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
             if (entity != null)
             {
                 var item = _mapper.Map(entity, new ThingyQueryDto());
-                _publisher.Publish(new ThingyRetrievedEvent {RetrievedItem = item});
+                DomainEvents.Raise(new ThingyRetrievedEvent(item));
                 return item;
             }
             return null;

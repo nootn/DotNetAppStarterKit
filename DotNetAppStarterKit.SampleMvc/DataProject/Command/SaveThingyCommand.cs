@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using System.Threading;
 using DotNetAppStarterKit.Core.Command;
-using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Logging;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
@@ -28,15 +28,12 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
         public readonly IDummyDataContext Context;
         public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
         public readonly IMapper<ThingyCommandDto, Thingy> Mapper;
-        public readonly IEventPublisher<ThingyChangedEvent> PublisherThingyChanged;
 
         public SaveThingyCommand(IDummyDataContext context, IMapper<ThingyCommandDto, Thingy> mapper,
-            IEventPublisher<ThingyChangedEvent> publisherThingyChanged,
             ILogWithCallerInfo<SaveThingyCommand> log)
         {
             Context = context;
             Mapper = mapper;
-            PublisherThingyChanged = publisherThingyChanged;
             Log = log;
         }
 
@@ -78,7 +75,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             }
 
             //Notify others that something has happened
-            PublisherThingyChanged.Publish(new ThingyChangedEvent {Action = action, ThingyId = model.Id});
+            DomainEvents.Raise(new ThingyChangedEvent(model.Id, action));
         }
     }
 }

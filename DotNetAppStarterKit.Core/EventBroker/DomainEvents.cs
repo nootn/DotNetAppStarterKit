@@ -8,25 +8,25 @@
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // */
 
-using DotNetAppStarterKit.Core.EventBroker;
-using DotNetAppStarterKit.SampleMvc.DataProject.Command;
-using DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture;
-using NSubstitute;
-using Ploeh.AutoFixture;
-using Ploeh.AutoFixture.AutoNSubstitute;
+using System;
 
-namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command
+namespace DotNetAppStarterKit.Core.EventBroker
 {
-    public abstract class SaveThingyCommandSpecFor : AutoSpecFor<SaveThingyCommand>
+    public static class DomainEvents
     {
-        protected IEventBroker EventBroker { get; private set; }
+        private static IEventBroker _eventBroker;
 
-        protected SaveThingyCommandSpecFor()
+        public static void SetEventBroker(IEventBroker eventBroker)
         {
-            Fixture.Customize(new AutoNSubstituteCustomization());
-            EventBroker = Substitute.For<IEventBroker>();
+            _eventBroker = eventBroker;
+        }
 
-            DomainEvents.SetEventBroker(EventBroker);
+        public static void Raise<TDomainEvent>(TDomainEvent domainEvent) where TDomainEvent : IDomainEvent
+        {
+            var eventBroker = _eventBroker;
+            if (eventBroker == null) throw new InvalidOperationException("You must provide an event broker implementation before you can raise domain events");
+
+            eventBroker.Raise(domainEvent);
         }
     }
 }

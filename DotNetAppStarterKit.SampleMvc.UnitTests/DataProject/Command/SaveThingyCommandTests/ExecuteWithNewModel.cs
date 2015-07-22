@@ -72,8 +72,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         [Then]
         public void ShouldHavePublishedEventIndicatingAdd()
         {
-            ((ThingyChangedEvent) Subject.PublisherThingyChanged.ReceivedCalls().First().GetArguments().First()).Action
-                .Should().Be(Enums.ChangeAction.Added);
+            EventBroker.Received(1).Raise(Arg.Is<ThingyChangedEvent>(t => t.Action == Enums.ChangeAction.Added));
         }
     }
 }
