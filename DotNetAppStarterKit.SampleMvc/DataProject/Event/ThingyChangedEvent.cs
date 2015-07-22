@@ -9,13 +9,20 @@
 // */
 
 using System;
+using DotNetAppStarterKit.Core.EventBroker;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Event
 {
-    public class ThingyChangedEvent
+    public class ThingyChangedEvent : IDomainEvent
     {
-        public Guid ThingyId { get; set; }
+        public ThingyChangedEvent(Guid id, Enums.ChangeAction action)
+        {
+            ThingyId = id;
+            Action = action;
+        }
 
-        public Enums.ChangeAction Action { get; set; }
+        public Guid ThingyId { get; private set; }
+
+        public Enums.ChangeAction Action { get; private set; }
     }
 }

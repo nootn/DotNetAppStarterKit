@@ -166,6 +166,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\DependencyResolverEventBroker.cs" />
     <Compile Include="Application\Interceptors\MiniProfilerAndLoggerInterceptor.cs" />
     <Compile Include="Application\Mapping\MvcInstanceCreator.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -184,9 +185,9 @@
     <Compile Include="DataProject\Context\IDummyDataContext.cs" />
     <Compile Include="DataProject\Entity\Thingy.cs" />
     <Compile Include="DataProject\Enums.cs" />
-    <Compile Include="DataProject\EventSubscriber\ThingyRetrievedEventSubscriber.cs" />
-    <Compile Include="DataProject\EventSubscriber\ThingysRetrievedEventSubscriber.cs" />
-    <Compile Include="DataProject\EventSubscriber\ThingyChangedEventSubscriber.cs" />
+    <Compile Include="DataProject\EventHandlers\ThingyRetrievedEventHandler.cs" />
+    <Compile Include="DataProject\EventHandlers\ThingysRetrievedEventHandler.cs" />
+    <Compile Include="DataProject\EventHandlers\ThingyChangedEventHandler.cs" />
     <Compile Include="DataProject\Event\ThingysRetrievedEvent.cs" />
     <Compile Include="DataProject\Event\ThingyRetrievedEvent.cs" />
     <Compile Include="DataProject\Event\ThingyChangedEvent.cs" />

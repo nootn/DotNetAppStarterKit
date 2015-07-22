@@ -44,6 +44,10 @@
     <Compile Include="Command\ICommand%27.cs" />
     <Compile Include="Command\ICommand%27%27.cs" />
     <Compile Include="DateAndTime\TimeFactory.cs" />
+    <Compile Include="EventBroker\DomainEvents.cs" />
+    <Compile Include="EventBroker\IDomainEvent.cs" />
+    <Compile Include="EventBroker\IEventBroker.cs" />
+    <Compile Include="EventBroker\IHandle.cs" />
     <Compile Include="Event\EventPublisher%27.cs" />
     <Compile Include="Event\EventSubscribersProvider%27.cs" />
     <Compile Include="Event\IEventSubscriber%27.cs" />

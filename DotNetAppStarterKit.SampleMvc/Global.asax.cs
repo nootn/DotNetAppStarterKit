@@ -24,12 +24,15 @@ using Autofac.Integration.Mvc;
 using AutofacContrib.DynamicProxy;
 using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
 using DotNetAppStarterKit.Mapping;
+using DotNetAppStarterKit.SampleMvc.Application;
 using DotNetAppStarterKit.SampleMvc.Application.Interceptors;
 using DotNetAppStarterKit.SampleMvc.Application.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
+using DotNetAppStarterKit.SampleMvc.DataProject.Event;
 using DotNetAppStarterKit.Web.Caching;
 using DotNetAppStarterKit.Web.Logging;
 using DotNetAppStarterKit.Web.Security;
@@ -122,16 +125,21 @@ namespace DotNetAppStarterKit.SampleMvc
                     _.InstancePerHttpRequest()
                      .EnableInterfaceInterceptors()
                      .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
-            builder.RegisterGeneric(typeof (EventPublisher<>)).AsImplementedInterfaces().InstancePerHttpRequest();
-            builder.RegisterGeneric(typeof (EventSubscribersProvider<>))
-                   .AsImplementedInterfaces()
-                   .InstancePerHttpRequest();
-            RegisterGenericTypes(builder, webAssembly, typeof (IEventSubscriber<>), true)
+
+            // Register Events
+            var eventsAssembly = typeof(ThingyChangedEvent).Assembly;
+            RegisterGenericTypes(builder, eventsAssembly, typeof(IHandle<>), true)
                 .ForEach(
                     _ =>
                     _.InstancePerHttpRequest()
                      .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
+
+            builder.RegisterType<DependencyResolverEventBroker>()
+                   .AsImplementedInterfaces()
+                   .AutoActivate()
+                   .OnActivated(c => DomainEvents.SetEventBroker(c.Instance))
+                   .SingleInstance();
 
             //The mappers are interesting..
             //This one is for the actual usages of the mappers
@@ -147,7 +155,6 @@ namespace DotNetAppStarterKit.SampleMvc
                 .ForEach(
                     _ =>
                     _.InstancePerHttpRequest());
-
 
             //Build and set resolver
             try

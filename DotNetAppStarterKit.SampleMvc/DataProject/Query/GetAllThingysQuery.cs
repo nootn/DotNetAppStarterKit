@@ -11,10 +11,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using DotNetAppStarterKit.Core.Caching;
-using DotNetAppStarterKit.Core.Event;
+using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
-using DotNetAppStarterKit.Mapping;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 using DotNetAppStarterKit.SampleMvc.DataProject.Event;
@@ -28,16 +27,13 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
         private readonly ICacheProvider<IEnumerable<ThingyQueryDto>> _cacheProvider;
         private readonly IDummyDataContext _context;
         private readonly IMapper<Thingy, ThingyQueryDto> _mapper;
-        private readonly IEventPublisher<ThingysRetrievedEvent> _publisher;
 
         public GetAllThingysQuery(IDummyDataContext context, IMapper<Thingy, ThingyQueryDto> mapper,
-            ICacheProvider<IEnumerable<ThingyQueryDto>> cacheProvider,
-            IEventPublisher<ThingysRetrievedEvent> publisher)
+            ICacheProvider<IEnumerable<ThingyQueryDto>> cacheProvider)
         {
             _context = context;
             _mapper = mapper;
             _cacheProvider = cacheProvider;
-            _publisher = publisher;
         }
 
         public override IEnumerable<ThingyQueryDto> ExecuteCached()
@@ -47,9 +43,9 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
 
         public override IEnumerable<ThingyQueryDto> Execute()
         {
-            var res =
-                _context.Thingys.OrderBy(_ => _.Name).ToList().Select(item => _mapper.Map(item, new ThingyQueryDto()));
-            _publisher.Publish(new ThingysRetrievedEvent {RetrievedItems = res});
+            var res = _context.Thingys.OrderBy(_ => _.Name).ToList().Select(item => _mapper.Map(item, new ThingyQueryDto()));
+            DomainEvents.Raise(new ThingysRetrievedEvent(res));
+
             return res;
         }
     }
