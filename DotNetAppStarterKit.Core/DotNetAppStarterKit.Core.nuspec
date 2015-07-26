@@ -2,9 +2,9 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.7.0</version>
+    <version>1.0.8.0</version>
     <releaseNotes>
-      * Adds Mapping interfaces IMapper and IInstanceCreator
+      * New improved mechanism for Domain Events (old implementation made obsolete)
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
