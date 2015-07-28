@@ -156,6 +156,10 @@ namespace DotNetAppStarterKit.SampleMvc
                     _ =>
                     _.InstancePerHttpRequest());
 
+            builder.RegisterGeneric(typeof (LifetimeScopeAwareTaskFactory<>))
+                .AsImplementedInterfaces()
+                .InstancePerHttpRequest();
+
             //Build and set resolver
             try
             {

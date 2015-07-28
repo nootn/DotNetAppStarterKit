@@ -9,11 +9,14 @@
 // */
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using DotNetAppStarterKit.Core.Caching;
 using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
+using DotNetAppStarterKit.SampleMvc.Application;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 using DotNetAppStarterKit.SampleMvc.DataProject.Event;
@@ -25,15 +28,18 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
     public class GetThingyQuery : CachedQueryBase<Guid, ThingyQueryDto>, IGetThingyQuery
     {
         private readonly ICacheProvider<ThingyQueryDto> _cacheProvider;
+        private readonly ILifetimeScopeAwareTaskFactory<ThingyQueryDto> _taskFactory;
         private readonly IDummyDataContext _context;
         private readonly IMapper<Thingy, ThingyQueryDto> _mapper;
 
         public GetThingyQuery(IDummyDataContext context, IMapper<Thingy, ThingyQueryDto> mapper,
-            ICacheProvider<ThingyQueryDto> cacheProvider)
+            ICacheProvider<ThingyQueryDto> cacheProvider,
+            ILifetimeScopeAwareTaskFactory<ThingyQueryDto> taskFactory)
         {
             _context = context;
             _mapper = mapper;
             _cacheProvider = cacheProvider;
+            _taskFactory = taskFactory;
         }
 
         public override ThingyQueryDto ExecuteCached(Guid model)
@@ -51,6 +57,11 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
                 return item;
             }
             return null;
+        }
+
+        public Task<ThingyQueryDto> ExecuteAsync(Guid model)
+        {
+            return _taskFactory.StartNew(() => Execute(model));
         }
     }
 }
