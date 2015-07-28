@@ -166,6 +166,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\LifetimeScopeAwareTaskFactory.cs" />
     <Compile Include="Application\DependencyResolverEventBroker.cs" />
     <Compile Include="Application\Interceptors\MiniProfilerAndLoggerInterceptor.cs" />
     <Compile Include="Application\Mapping\MvcInstanceCreator.cs" />
