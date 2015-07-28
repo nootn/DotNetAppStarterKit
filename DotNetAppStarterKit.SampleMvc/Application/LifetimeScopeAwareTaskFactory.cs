@@ -4,12 +4,12 @@ using Autofac;
 
 namespace DotNetAppStarterKit.SampleMvc.Application
 {
-    public interface ILifetimeScopeAwareTaskFactory<TResult>
+    public interface ILifetimeScopeAwareTaskFactory
     {
-        Task<TResult> StartNew(Func<TResult> function);
+        Task<TResult> StartNew<TResult>(Func<TResult> function);
     }
 
-    public class LifetimeScopeAwareTaskFactory<TResult> : ILifetimeScopeAwareTaskFactory<TResult>
+    public class LifetimeScopeAwareTaskFactory : ILifetimeScopeAwareTaskFactory
     {
         private readonly ILifetimeScope _lifetimeScope;
 
@@ -18,14 +18,20 @@ namespace DotNetAppStarterKit.SampleMvc.Application
             _lifetimeScope = lifetimeScope;
         }
 
-        public Task<TResult> StartNew(Func<TResult> function)
+        public Task<TResult> StartNew<TResult>(Func<TResult> function)
         {
             return Task.Run(() =>
             {
-                DependencyResolverEventBroker.LifetimeScope = _lifetimeScope;
-                var result = function();
-                DependencyResolverEventBroker.LifetimeScope = null;
-                return result;
+                try
+                {
+                    DependencyResolverEventBroker.LifetimeScope = _lifetimeScope;
+                    var result = function();
+                    return result;
+                }
+                finally
+                {
+                    DependencyResolverEventBroker.LifetimeScope = null;
+                }
             });
         }
     }

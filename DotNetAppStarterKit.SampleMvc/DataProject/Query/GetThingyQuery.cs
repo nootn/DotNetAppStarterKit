@@ -28,13 +28,13 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
     public class GetThingyQuery : CachedQueryBase<Guid, ThingyQueryDto>, IGetThingyQuery
     {
         private readonly ICacheProvider<ThingyQueryDto> _cacheProvider;
-        private readonly ILifetimeScopeAwareTaskFactory<ThingyQueryDto> _taskFactory;
+        private readonly ILifetimeScopeAwareTaskFactory _taskFactory;
         private readonly IDummyDataContext _context;
         private readonly IMapper<Thingy, ThingyQueryDto> _mapper;
 
         public GetThingyQuery(IDummyDataContext context, IMapper<Thingy, ThingyQueryDto> mapper,
             ICacheProvider<ThingyQueryDto> cacheProvider,
-            ILifetimeScopeAwareTaskFactory<ThingyQueryDto> taskFactory)
+            ILifetimeScopeAwareTaskFactory taskFactory)
         {
             _context = context;
             _mapper = mapper;
