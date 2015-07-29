@@ -11,10 +11,12 @@
 using System;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using DotNetAppStarterKit.Core.Command;
 using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Logging;
 using DotNetAppStarterKit.Core.Mapping;
+using DotNetAppStarterKit.SampleMvc.Application;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
@@ -28,12 +30,15 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
         public readonly IDummyDataContext Context;
         public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
         public readonly IMapper<ThingyCommandDto, Thingy> Mapper;
+        private readonly ILifetimeScopeAwareTaskFactory _taskFactory;
 
         public SaveThingyCommand(IDummyDataContext context, IMapper<ThingyCommandDto, Thingy> mapper,
+            ILifetimeScopeAwareTaskFactory taskFactory,
             ILogWithCallerInfo<SaveThingyCommand> log)
         {
             Context = context;
             Mapper = mapper;
+            _taskFactory = taskFactory;
             Log = log;
         }
 
@@ -76,6 +81,11 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 
             //Notify others that something has happened
             DomainEvents.Raise(new ThingyChangedEvent(model.Id, action));
+        }
+
+        public override Task ExecuteAsync(ThingyCommandDto model)
+        {
+            return _taskFactory.StartNew(() => Execute(model));
         }
     }
 }
