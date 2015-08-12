@@ -54,9 +54,9 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Query
             return res;
         }
 
-        public override Task<IEnumerable<ThingyQueryDto>> ExecuteAsync()
+        public async override Task<IEnumerable<ThingyQueryDto>> ExecuteAsync()
         {
-            return _taskFactory.StartNew(() => Execute());
+            return await _taskFactory.StartNew(() => Execute());
         }
     }
 }

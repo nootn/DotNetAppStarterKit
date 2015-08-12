@@ -27,19 +27,19 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 {
     public class SaveThingyCommand : CommandBase<ThingyCommandDto>, ISaveThingyCommand
     {
-        public readonly IDummyDataContext Context;
-        public readonly ILogWithCallerInfo<SaveThingyCommand> Log;
-        public readonly IMapper<ThingyCommandDto, Thingy> Mapper;
+        private readonly IDummyDataContext _context;
+        private readonly ILogWithCallerInfo<SaveThingyCommand> _log;
+        private readonly IMapper<ThingyCommandDto, Thingy> _mapper;
         private readonly ILifetimeScopeAwareTaskFactory _taskFactory;
 
         public SaveThingyCommand(IDummyDataContext context, IMapper<ThingyCommandDto, Thingy> mapper,
             ILifetimeScopeAwareTaskFactory taskFactory,
             ILogWithCallerInfo<SaveThingyCommand> log)
         {
-            Context = context;
-            Mapper = mapper;
+            _context = context;
+            _mapper = mapper;
             _taskFactory = taskFactory;
-            Log = log;
+            _log = log;
         }
 
         public override void Execute(ThingyCommandDto model)
@@ -48,35 +48,35 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             Enums.ChangeAction action;
             var item = model.Id == Guid.Empty
                 ? null
-                : Context.Thingys.SingleOrDefault(_ => _.Id == model.Id);
+                : _context.Thingys.SingleOrDefault(_ => _.Id == model.Id);
             if (item == null)
             {
                 //we need to set the id - set it on the model and it will get mapped onto the entity later
                 model.Id = Guid.NewGuid();
 
                 //create a new entity and mark it to be added
-                item = Context.CreateAndAddThingy();
+                item = _context.CreateAndAddEntity<Thingy>();
 
                 action = Enums.ChangeAction.Added;
-                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Did not exist, will add with new id '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
+                _log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Did not exist, will add with new id '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             else
             {
                 action = Enums.ChangeAction.Updated;
-                Log.InformationWithCallerInfo(() =>string.Format("[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id, Thread.CurrentThread.ManagedThreadId));
+                _log.InformationWithCallerInfo(() =>string.Format("[ThreadId: {1}] Did exist, will possibly update existing id '{0}' if it has changed", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
-            Mapper.Map(model, item);
+            _mapper.Map(model, item);
 
-            var res = Context.SaveChanges();
+            var res = _context.SaveChanges();
 
             if (res > 0)
             {
-                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
+                _log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] Changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
             else
             {
                 action = Enums.ChangeAction.None;
-                Log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] No changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
+                _log.InformationWithCallerInfo(() => string.Format("[ThreadId: {1}] No changes were saved on '{0}'", model.Id, Thread.CurrentThread.ManagedThreadId));
             }
 
             //Notify others that something has happened

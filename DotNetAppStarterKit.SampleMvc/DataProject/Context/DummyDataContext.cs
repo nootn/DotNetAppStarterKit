@@ -1,5 +1,5 @@
 ﻿// /*
-// Copyright (c) 2013 Andrew Newton (http://www.nootn.com.au)
+// Copyright (c) 2015 Andrew Newton (http://www.nootn.com.au)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -9,26 +9,22 @@
 // */
 
 using System.Data.Entity;
-using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
 {
     public class DummyDataContext : DbContext, IDummyDataContext
     {
-        public DbSet<Thingy> Thingys { get; set; }
-
-        public Thingy CreateAndAddThingy()
+        public IDbSet<Thingy> Thingys
         {
-            var item = Thingys.Create();
-            Thingys.Add(item);
-            return item;
+            get { return Set<Thingy>(); }
         }
 
-        IQueryable<Thingy> IDummyDataContext.Thingys
+        public TEntity CreateAndAddEntity<TEntity>() where TEntity : class
         {
-            get { return Thingys; }
-            set { Thingys = value as DbSet<Thingy>; }
+            var tEntity = Set<TEntity>().Create();
+            Set<TEntity>().Add(tEntity);
+            return tEntity;
         }
     }
 }

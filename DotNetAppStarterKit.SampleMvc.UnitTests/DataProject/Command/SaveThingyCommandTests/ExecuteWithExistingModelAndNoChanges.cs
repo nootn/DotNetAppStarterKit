@@ -1,5 +1,5 @@
 ﻿// /*
-// Copyright (c) 2013 Andrew Newton (http://www.nootn.com.au)
+// Copyright (c) 2015 Andrew Newton (http://www.nootn.com.au)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -9,8 +9,6 @@
 // */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
@@ -39,12 +37,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
 
             var cmd = Fixture.Create<SaveThingyCommand>();
 
-            //IQueryable is not mocked well, so instead use a List
-            var existingThingys = Fixture.Create<List<Thingy>>();
-            existingThingys.Add(_existingEntity);
-            cmd.Context.Thingys = existingThingys.AsQueryable();
-
-            cmd.Context.SaveChanges().ReturnsForAnyArgs(0);
+            Context.Thingys.Add(_existingEntity);
 
             return cmd;
         }
@@ -63,13 +56,13 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         [Then]
         public void ShouldHaveMappedModelToEntity()
         {
-            Subject.Mapper.ReceivedWithAnyArgs(1).Map(null, null);
+            Mapper.ReceivedWithAnyArgs(1).Map(null, null);
         }
 
         [Then]
         public void ShouldHaveCalledSavedChanges()
         {
-            Subject.Context.ReceivedWithAnyArgs(1).SaveChanges();
+            Context.ReceivedWithAnyArgs(1).SaveChanges();
         }
 
         [Then]

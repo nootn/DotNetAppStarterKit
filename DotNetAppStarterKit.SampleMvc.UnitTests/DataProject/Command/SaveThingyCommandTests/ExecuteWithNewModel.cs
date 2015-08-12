@@ -1,5 +1,5 @@
 ﻿// /*
-// Copyright (c) 2013 Andrew Newton (http://www.nootn.com.au)
+// Copyright (c) 2015 Andrew Newton (http://www.nootn.com.au)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -9,7 +9,6 @@
 // */
 
 using System;
-using System.Linq;
 using DotNetAppStarterKit.SampleMvc.DataProject;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
@@ -34,8 +33,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
             _model.Id = _originalModelId;
 
             var cmd = Fixture.Create<SaveThingyCommand>();
-            cmd.Context.CreateAndAddThingy().ReturnsForAnyArgs(Fixture.Create<Thingy>());
-            cmd.Context.SaveChanges().ReturnsForAnyArgs(1);
+
+            Context.When(call => call.SaveChanges()).DoNotCallBase();
+            Context.SaveChanges().ReturnsForAnyArgs(1);
 
             return cmd;
         }
@@ -54,19 +54,19 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         [Then]
         public void ShouldHaveCreatedAndAddedAThingy()
         {
-            Subject.Context.ReceivedWithAnyArgs(1).CreateAndAddThingy();
+            Context.ReceivedWithAnyArgs(1).CreateAndAddEntity<Thingy>();
         }
 
         [Then]
         public void ShouldHaveMappedModelToEntity()
         {
-            Subject.Mapper.ReceivedWithAnyArgs(1).Map(null, null);
+            Mapper.ReceivedWithAnyArgs(1).Map(null, null);
         }
 
         [Then]
         public void ShouldHaveCalledSavedChanges()
         {
-            Subject.Context.ReceivedWithAnyArgs(1).SaveChanges();
+            Context.ReceivedWithAnyArgs(1).SaveChanges();
         }
 
         [Then]
