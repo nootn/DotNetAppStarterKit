@@ -42,9 +42,9 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
             return cmd;
         }
 
-        protected override void When()
+        protected override async void When()
         {
-            Subject.Execute(_model);
+            await Subject.ExecuteAsync(_model);
         }
 
         [Then]
@@ -62,7 +62,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         [Then]
         public void ShouldHaveCalledSavedChanges()
         {
-            Context.ReceivedWithAnyArgs(1).SaveChanges();
+            Context.ReceivedWithAnyArgs(1).SaveChangesAsync();
         }
 
         [Then]

@@ -9,6 +9,7 @@
 // */
 
 using System.Data.Entity;
+using System.Threading.Tasks;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
@@ -17,6 +18,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Context
     {
         IDbSet<Thingy> Thingys { get; }
         int SaveChanges();
+        Task<int> SaveChangesAsync();
         TEntity CreateAndAddEntity<TEntity>() where TEntity : class;
     }
 }

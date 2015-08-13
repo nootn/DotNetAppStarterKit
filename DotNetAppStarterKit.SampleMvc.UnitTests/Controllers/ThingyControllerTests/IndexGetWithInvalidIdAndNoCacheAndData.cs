@@ -33,7 +33,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
             Fixture.Register(() => new ThingyQueryDtoToThingyModelMapper() as IMapper<ThingyQueryDto, ThingyModel>);
 
             var controller = Fixture.Create<ThingyController>();
-            controller.GetThingyQuery.Execute(_invalidId).Returns(default(ThingyQueryDto));
             controller.GetThingyQuery.ExecuteAsync(_invalidId).Returns(Task.FromResult(default(ThingyQueryDto)));
             controller.GetThingyQuery.ExecuteCached(Guid.Empty).ReturnsForAnyArgs(default(ThingyQueryDto));
             return controller;
@@ -67,12 +66,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         public void ShouldHaveTriedToGetAsyncResults()
         {
             Subject.GetThingyQuery.Received().ExecuteAsync(_invalidId);
-        }
-
-        [Then]
-        public void ShouldNotHaveTriedToGetSyncResults()
-        {
-            Subject.GetThingyQuery.DidNotReceiveWithAnyArgs().Execute(Guid.Empty);
         }
     }
 }

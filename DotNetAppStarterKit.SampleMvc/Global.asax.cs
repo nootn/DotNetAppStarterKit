@@ -1,5 +1,5 @@
 ﻿// /*
-// Copyright (c) 2013 Andrew Newton (http://www.nootn.com)
+// Copyright (c) 2015 Andrew Newton (http://www.nootn.com.au)
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 // 
@@ -23,7 +23,6 @@ using Autofac.Builder;
 using Autofac.Integration.Mvc;
 using AutofacContrib.DynamicProxy;
 using DotNetAppStarterKit.Core.Command;
-using DotNetAppStarterKit.Core.Event;
 using DotNetAppStarterKit.Core.EventBroker;
 using DotNetAppStarterKit.Core.Mapping;
 using DotNetAppStarterKit.Core.Query;
@@ -87,74 +86,98 @@ namespace DotNetAppStarterKit.SampleMvc
             builder.RegisterType<User>().AsImplementedInterfaces().InstancePerHttpRequest();
             builder.RegisterGeneric(typeof (WebCacheProvider<>)).AsImplementedInterfaces().InstancePerHttpRequest();
             builder.RegisterGeneric(typeof (TraceWithElmahErrorsAndCallerInfoLog<>))
-                   .AsImplementedInterfaces()
-                   .InstancePerHttpRequest();
+                .AsImplementedInterfaces()
+                .InstancePerHttpRequest();
             RegisterGenericTypes(builder, webAssembly, typeof (ICommand<,>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
             RegisterGenericTypes(builder, webAssembly, typeof (ICommand<>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+            RegisterGenericTypes(builder, webAssembly, typeof (IAsyncCommand<,>), true)
+                .ForEach(
+                    _ =>
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+            RegisterGenericTypes(builder, webAssembly, typeof (IAsyncCommand<>), true)
+                .ForEach(
+                    _ =>
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
             RegisterGenericTypes(builder, webAssembly, typeof (IQuery<,>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
             RegisterGenericTypes(builder, webAssembly, typeof (IQuery<>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+            RegisterGenericTypes(builder, webAssembly, typeof (IAsyncQuery<,>), true)
+                .ForEach(
+                    _ =>
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+            RegisterGenericTypes(builder, webAssembly, typeof (IAsyncQuery<>), true)
+                .ForEach(
+                    _ =>
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
             RegisterGenericTypes(builder, webAssembly, typeof (ICachedQuery<,>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
             RegisterGenericTypes(builder, webAssembly, typeof (ICachedQuery<>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
 
             // Register Events
-            var eventsAssembly = typeof(ThingyChangedEvent).Assembly;
-            RegisterGenericTypes(builder, eventsAssembly, typeof(IHandle<>), true)
+            var eventsAssembly = typeof (ThingyChangedEvent).Assembly;
+            RegisterGenericTypes(builder, eventsAssembly, typeof (IHandle<>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
 
             builder.RegisterType<DependencyResolverEventBroker>()
-                   .AsImplementedInterfaces()
-                   .AutoActivate()
-                   .OnActivated(c => DomainEvents.SetEventBroker(c.Instance))
-                   .SingleInstance();
+                .AsImplementedInterfaces()
+                .AutoActivate()
+                .OnActivated(c => DomainEvents.SetEventBroker(c.Instance))
+                .SingleInstance();
 
             //The mappers are interesting..
             //This one is for the actual usages of the mappers
-            RegisterGenericTypes(builder, webAssembly, typeof(IMapper<,>), true)
+            RegisterGenericTypes(builder, webAssembly, typeof (IMapper<,>), true)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest()
-                     .EnableInterfaceInterceptors()
-                     .InterceptedBy(typeof(MiniProfilerAndLoggerInterceptor)));
+                        _.InstancePerHttpRequest()
+                            .EnableInterfaceInterceptors()
+                            .InterceptedBy(typeof (MiniProfilerAndLoggerInterceptor)));
 
             //This one is needed to get an instance of each mapper in the "MvcInstanceCreator"
-            RegisterGenericTypes(builder, webAssembly, typeof(MapperBase<,>), false)
+            RegisterGenericTypes(builder, webAssembly, typeof (MapperBase<,>), false)
                 .ForEach(
                     _ =>
-                    _.InstancePerHttpRequest());
+                        _.InstancePerHttpRequest());
 
             builder.RegisterType<LifetimeScopeAwareTaskFactory>()
                 .AsImplementedInterfaces()
@@ -197,27 +220,27 @@ namespace DotNetAppStarterKit.SampleMvc
         }
 
         private static List<IRegistrationBuilder<object, object, object>> RegisterGenericTypes(ContainerBuilder builder,
-                                                                                               Assembly parentAssembly,
-                                                                                               Type
-                                                                                                   genericRepositoryType,
-                                                                                               bool asInterfaces)
+            Assembly parentAssembly,
+            Type
+                genericRepositoryType,
+            bool asInterfaces)
         {
             var types = parentAssembly.GetExportedTypes()
-                                      .Where(t => !t.IsInterface && !t.IsAbstract)
-                                      .Where(t => IsAssignableToGenericType(t, genericRepositoryType))
-                                      .ToArray();
+                .Where(t => !t.IsInterface && !t.IsAbstract)
+                .Where(t => IsAssignableToGenericType(t, genericRepositoryType))
+                .ToArray();
 
             var res = new List<IRegistrationBuilder<object, object, object>>();
             foreach (var type in types)
             {
                 if (type.IsGenericType)
                     res.Add(asInterfaces
-                                ? builder.RegisterGeneric(type).AsImplementedInterfaces()
-                                : builder.RegisterGeneric(type).AsSelf());
+                        ? builder.RegisterGeneric(type).AsImplementedInterfaces()
+                        : builder.RegisterGeneric(type).AsSelf());
                 else
                     res.Add(asInterfaces
-                                ? builder.RegisterType(type).AsImplementedInterfaces()
-                                : builder.RegisterType(type).AsSelf());
+                        ? builder.RegisterType(type).AsImplementedInterfaces()
+                        : builder.RegisterType(type).AsSelf());
             }
             return res;
         }

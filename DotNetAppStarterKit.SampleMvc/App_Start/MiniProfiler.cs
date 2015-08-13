@@ -19,7 +19,7 @@ namespace DotNetAppStarterKit.SampleMvc.App_Start
         public static void PreStart()
         {
             MiniProfiler.Settings.SqlFormatter = new StackExchange.Profiling.SqlFormatters.SqlServerFormatter();
-			MiniProfilerEF.Initialize();
+            //TODO: "update-package MiniProfiler.EF" then: MiniProfilerEF.Initialize();
             DynamicModuleUtility.RegisterModule(typeof(MiniProfilerStartupModule));
             GlobalFilters.Filters.Add(new ProfilingActionFilter());
         }

@@ -10,7 +10,7 @@
 
 namespace DotNetAppStarterKit.Core.Query
 {
-    public interface ICachedQuery<TR> : IQuery<TR>
+    public interface ICachedQuery<out TR>
     {
         TR ExecuteCached();
     }

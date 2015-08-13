@@ -9,6 +9,7 @@
 // */
 
 using System;
+using System.Threading.Tasks;
 using DotNetAppStarterKit.SampleMvc.DataProject;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command;
 using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
@@ -39,15 +40,15 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
 
             Context.Thingys.Add(_existingEntity);
 
-            Context.When(call => call.SaveChanges()).DoNotCallBase();
-            Context.SaveChanges().ReturnsForAnyArgs(1);
+            Context.When(call => call.SaveChangesAsync()).DoNotCallBase();
+            Context.SaveChangesAsync().ReturnsForAnyArgs(Task.Run(()=>1));
 
             return cmd;
         }
 
-        protected override void When()
+        protected override async void When()
         {
-            Subject.Execute(_model);
+            await Subject.ExecuteAsync(_model);
         }
 
         [Then]
@@ -65,7 +66,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.DataProject.Command.SaveThingy
         [Then]
         public void ShouldHaveCalledSavedChanges()
         {
-            Context.ReceivedWithAnyArgs(1).SaveChanges();
+            Context.ReceivedWithAnyArgs(1).SaveChangesAsync();
         }
 
         [Then]

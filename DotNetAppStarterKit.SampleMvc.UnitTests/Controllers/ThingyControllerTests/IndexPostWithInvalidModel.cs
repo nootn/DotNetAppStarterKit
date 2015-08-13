@@ -64,7 +64,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingyControllerTe
         [Then]
         public void ShouldNotHaveTriedToSaveSync()
         {
-            Subject.SaveThingyCommand.DidNotReceiveWithAnyArgs().Execute(null);
+            Subject.SaveThingyCommand.DidNotReceiveWithAnyArgs().ExecuteAsync(null);
         }
     }
 }

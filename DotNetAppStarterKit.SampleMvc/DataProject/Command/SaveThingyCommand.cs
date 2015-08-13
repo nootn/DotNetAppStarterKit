@@ -25,7 +25,7 @@ using DotNetAppStarterKit.SampleMvc.DataProject.Event;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
 {
-    public class SaveThingyCommand : CommandBase<ThingyCommandDto>, ISaveThingyCommand
+    public class SaveThingyCommand : AsyncCommandBase<ThingyCommandDto>, ISaveThingyCommand
     {
         private readonly IDummyDataContext _context;
         private readonly ILogWithCallerInfo<SaveThingyCommand> _log;
@@ -42,7 +42,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             _log = log;
         }
 
-        public override void Execute(ThingyCommandDto model)
+        public override async Task ExecuteAsync(ThingyCommandDto model)
         {
             if (model == null) throw new ArgumentNullException("model");
             Enums.ChangeAction action;
@@ -67,7 +67,7 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             }
             _mapper.Map(model, item);
 
-            var res = _context.SaveChanges();
+            var res = await _context.SaveChangesAsync();
 
             if (res > 0)
             {
@@ -83,9 +83,5 @@ namespace DotNetAppStarterKit.SampleMvc.DataProject.Command
             DomainEvents.Raise(new ThingyChangedEvent(model.Id, action));
         }
 
-        public override Task ExecuteAsync(ThingyCommandDto model)
-        {
-            return _taskFactory.StartNew(() => Execute(model));
-        }
     }
 }

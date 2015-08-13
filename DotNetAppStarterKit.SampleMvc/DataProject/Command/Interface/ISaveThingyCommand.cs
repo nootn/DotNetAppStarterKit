@@ -13,7 +13,7 @@ using DotNetAppStarterKit.SampleMvc.DataProject.Command.CommandDto;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Command.Interface
 {
-    public interface ISaveThingyCommand : ICommand<ThingyCommandDto>
+    public interface ISaveThingyCommand : IAsyncCommand<ThingyCommandDto>
     {
     }
 }

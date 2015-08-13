@@ -14,7 +14,7 @@ using DotNetAppStarterKit.SampleMvc.DataProject.Query.QueryDto;
 
 namespace DotNetAppStarterKit.SampleMvc.DataProject.Query.Interface
 {
-    public interface IGetAllThingysQuery : ICachedQuery<IEnumerable<ThingyQueryDto>>
+    public interface IGetAllThingysQuery : ICachedQuery<IEnumerable<ThingyQueryDto>>, IAsyncQuery<IEnumerable<ThingyQueryDto>>
     {
     }
 }

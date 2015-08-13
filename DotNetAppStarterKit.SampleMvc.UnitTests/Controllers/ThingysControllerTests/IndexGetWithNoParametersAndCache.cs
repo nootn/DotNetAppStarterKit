@@ -31,7 +31,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
             _validResults = Fixture.Create<List<ThingyQueryDto>>();
 
             var controller = Fixture.Create<ThingysController>();
-            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(_validResults);
             controller.GetAllThingysQuery.ExecuteAsync()
                 .ReturnsForAnyArgs(Task.FromResult(_validResults.AsEnumerable()));
             controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(_validResults);
@@ -67,10 +66,5 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
             Subject.GetAllThingysQuery.DidNotReceiveWithAnyArgs().ExecuteAsync();
         }
 
-        [Then]
-        public void ShouldNotHaveTriedToGetSyncResults()
-        {
-            Subject.GetAllThingysQuery.DidNotReceiveWithAnyArgs().Execute();
-        }
     }
 }

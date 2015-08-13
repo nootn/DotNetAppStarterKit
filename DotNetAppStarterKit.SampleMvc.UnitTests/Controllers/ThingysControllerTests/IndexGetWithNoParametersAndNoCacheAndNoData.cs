@@ -26,7 +26,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         protected override ThingysController Given()
         {
             var controller = Fixture.Create<ThingysController>();
-            controller.GetAllThingysQuery.Execute().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
             controller.GetAllThingysQuery.ExecuteAsync()
                 .ReturnsForAnyArgs(Task.FromResult(default(IEnumerable<ThingyQueryDto>)));
             controller.GetAllThingysQuery.ExecuteCached().ReturnsForAnyArgs(default(IEnumerable<ThingyQueryDto>));
@@ -60,12 +59,6 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Controllers.ThingysControllerT
         public void ShouldHaveTriedToGetAsyncResults()
         {
             Subject.GetAllThingysQuery.ReceivedWithAnyArgs(1).ExecuteAsync();
-        }
-
-        [Then]
-        public void ShouldNotHaveTriedToGetSyncResults()
-        {
-            Subject.GetAllThingysQuery.DidNotReceiveWithAnyArgs().Execute();
         }
     }
 }

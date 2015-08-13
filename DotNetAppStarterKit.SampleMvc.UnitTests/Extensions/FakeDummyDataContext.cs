@@ -11,6 +11,7 @@
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using DotNetAppStarterKit.SampleMvc.DataProject.Context;
 using DotNetAppStarterKit.SampleMvc.DataProject.Entity;
 
@@ -26,7 +27,7 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Extensions
             context.Thingys = new FakeDbSet<Thingy>();
         }
 
-        public virtual TEntity CreateAndAddEntity<TEntity>() where TEntity : class
+       public virtual TEntity CreateAndAddEntity<TEntity>() where TEntity : class
         {
             var t = Activator.CreateInstance<TEntity>();
             var dbSet = Set<TEntity>();
@@ -45,6 +46,11 @@ namespace DotNetAppStarterKit.SampleMvc.UnitTests.Extensions
         public virtual int SaveChanges()
         {
             return 0;
+        }
+
+        public virtual Task<int> SaveChangesAsync()
+        {
+            return Task.Run(() => 0);
         }
 
         public virtual IDbSet<TEntity> Set<TEntity>() where TEntity : class
