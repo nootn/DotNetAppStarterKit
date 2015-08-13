@@ -3,9 +3,10 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture</id>
-    <version>1.0.1.0</version>
+    <version>2.0.1.0</version>
     <releaseNotes>
-      Adds SpecFor with no "Subject" which can be used for testing static methods
+      * Upgrades to .NET 4.5.1
+      * Upgrades DotNetAppStarterKit.Core to 2.0.0.0 which has breaking changes - see release notes
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -13,21 +14,21 @@
     <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Gets you up and going with a DotNet app quicker by providing common classes to help with writing automated tests.</description>
-    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <copyright>Copyright http://www.nootn.com.au 2015</copyright>
     <tags>DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture DotNetAppStarterKit .net dotnet nsubstitute nunit autofixture AutoNSubstitute testing test nootn</tags>
     <dependencies>
       <dependency id="AutoFixture.AutoNSubstitute" />
       <dependency id="NUnit" />
-      <dependency id="DotNetAppStarterKit.Core" version="1.0.7.0" />
+      <dependency id="DotNetAppStarterKit.Core" version="2.0.0.0" />
     </dependencies>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp" />
+      <frameworkAssembly assemblyName="System" />
+      <frameworkAssembly assemblyName="System.Core" />
+      <frameworkAssembly assemblyName="System.Data" />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\release\DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture.dll" target="lib\net45" />
+    <file src="bin\release\DotNetAppStarterKit.Testing.NUnitNSubstituteAutofixture.dll" target="lib\net451" />
   </files>
 </package>

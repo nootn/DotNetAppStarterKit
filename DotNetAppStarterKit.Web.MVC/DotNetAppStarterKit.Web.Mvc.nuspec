@@ -2,32 +2,33 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Web.Mvc</id>
-    <version>1.0.4.0</version>
+    <version>2.0.0.0</version>
     <releaseNotes>
-      * Removes references to HttpContext.Current - no functionality change
+      * Upgrades to .NET 4.5.1
+      * Upgrades DotNetAppStarterKit.Core to 2.0.0.0 which has breaking changes - see release notes
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
     <projectUrl>http://nootn.github.com/DotNetAppStarterKit</projectUrl>
     <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Gets you up and going with an ASP.NET MVC app quicker by provifing handy components such as action filters and helper methods to perform actions like caching and logging.</description>
-    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <description>Gets you up and going with an ASP.NET MVC app quicker by providing handy components such as action filters and helper methods to perform actions like caching and logging.</description>
+    <copyright>Copyright http://www.nootn.com.au 2015</copyright>
     <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet web webforms mvc caching cache logging log security nootn</tags>
     <dependencies>
-      <dependency id="DotNetAppStarterKit.Web" version="1.0.4.0" />
+      <dependency id="DotNetAppStarterKit.Web" version="2.0.0.0" />
       <dependency id="Microsoft.AspNet.Mvc" version="4.0.20710.0" />
     </dependencies>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Web" targetFramework="net40" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp"  />
+      <frameworkAssembly assemblyName="System"  />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations"  />
+      <frameworkAssembly assemblyName="System.Core"  />
+      <frameworkAssembly assemblyName="System.Data"  />
+      <frameworkAssembly assemblyName="System.Web"  />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\release\DotNetAppStarterKit.Web.Mvc.dll" target="lib\net45" />
+    <file src="bin\release\DotNetAppStarterKit.Web.Mvc.dll" target="lib\net451" />
   </files>
 </package>

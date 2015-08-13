@@ -2,12 +2,10 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Mapping</id>
-    <version>1.0.2.0</version>
+    <version>2.0.0.0</version>
     <releaseNotes>
-      * Refactors MapperBase to implement new interface IMapper in DotNetAppStarterKit.Core
-      * Improves AssertConfigurationIsValidInAllMappers method to allow IOC container to create instances not just reflection
-
-      Add this package to any project where you perform mapping using AutoMapper to be able to create testable, maintainable maps
+      * Upgrades to .NET 4.5.1
+      * Upgrades DotNetAppStarterKit.Core to 2.0.0.0 which has breaking changes - see release notes
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -15,22 +13,21 @@
     <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Gets you up and going with a DotNet app quicker by providing interfaces for commonly used mapping techniques.</description>
-    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <copyright>Copyright http://www.nootn.com.au 2015</copyright>
     <tags>DotNetAppStarterKit.Mapping DotNetAppStarterKit .net dotnet automapper map mapping mapbase mapperbase testing test nootn</tags>
     <dependencies>
-      <!-- Version 2.2.0 has some critical bugs especially around mapping Entity Framework entities, so use the latest pre-release version if possible -->
-      <dependency id="AutoMapper" version="2.1.0" />
-      <dependency id="DotNetAppStarterKit.Core" version="1.0.7.0" />
+      <dependency id="AutoMapper" version="4.0.4" />
+      <dependency id="DotNetAppStarterKit.Core" version="2.0.0.0" />
     </dependencies>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp" />
+      <frameworkAssembly assemblyName="System" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
+      <frameworkAssembly assemblyName="System.Core" />
+      <frameworkAssembly assemblyName="System.Data" />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\release\DotNetAppStarterKit.Mapping.dll" target="lib\net45" />
+    <file src="bin\release\DotNetAppStarterKit.Mapping.dll" target="lib\net451" />
   </files>
 </package>

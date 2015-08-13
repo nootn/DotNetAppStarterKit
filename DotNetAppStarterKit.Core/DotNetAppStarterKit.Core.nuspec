@@ -2,9 +2,12 @@
 <package>
   <metadata>
     <id>DotNetAppStarterKit.Core</id>
-    <version>1.0.8.0</version>
+    <version>2.0.0.0</version>
     <releaseNotes>
-      * New improved mechanism for Domain Events (old implementation made obsolete)
+      * Upgrades to .NET 4.5.1
+      * BREAKING CHANGE: Async has been split into it's own interfaces in commands and queries.
+      To not break anything just implement IQuery, ICachedQuery and IAsyncQuery or ICommand and IAsyncCommand.
+      However a better approach is to have them split, a query or command should either be async or not - choose one instead of implementing both.
     </releaseNotes>
     <authors>http://www.nootn.com.au</authors>
     <owners>http://www.nootn.com.au</owners>
@@ -12,17 +15,17 @@
     <iconUrl>https://en.gravatar.com/userimage/3172408/16287e323f3bf3578271be411aadde84.jpg</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Gets you up and going with a DotNet app quicker by providing interfaces for commonly used components such as logging, caching and security.</description>
-    <copyright>Copyright http://www.nootn.com.au 2013</copyright>
+    <copyright>Copyright http://www.nootn.com.au 2015</copyright>
     <tags>DotNetAppStarterKit.Core DotNetAppStarterKit .net dotnet infrastructure base caching cache logging log security event events publish subscribe nootn</tags>
     <frameworkAssemblies>
-      <frameworkAssembly assemblyName="Microsoft.CSharp" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Data" targetFramework="net40" />
+      <frameworkAssembly assemblyName="Microsoft.CSharp" />
+      <frameworkAssembly assemblyName="System" />
+      <frameworkAssembly assemblyName="System.ComponentModel.DataAnnotations" />
+      <frameworkAssembly assemblyName="System.Core" />
+      <frameworkAssembly assemblyName="System.Data" />
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="bin\release\DotNetAppStarterKit.Core.dll" target="lib\net45" />
+    <file src="bin\release\DotNetAppStarterKit.Core.dll" target="lib\net451" />
   </files>
 </package>
